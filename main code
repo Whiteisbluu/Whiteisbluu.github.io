@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,14 +130,11 @@
       const maxScroll = document.body.scrollHeight - window.innerHeight;
       const t = maxScroll > 0 ? window.scrollY / maxScroll : 0;
 
-      // triangle wave: 0 -> 1 -> 0 as you scroll top -> middle -> bottom
       const wave = t < 0.5 ? t * 2 : (1 - t) * 2;
       const bg = Math.round(wave * 255);
 
-      // smooth but steep curve: text stays near full white/black most of the
-      // time, blending continuously through a short transition near the middle
       const k = 0.08;
-      const lightness = 1 / (1 + Math.exp(-k * (bg - 127.5))); // 0 -> 1
+      const lightness = 1 / (1 + Math.exp(-k * (bg - 127.5)));
       const fg = Math.round(255 * (1 - lightness));
       const isLight = bg > 128;
 
@@ -164,4 +162,4 @@
 
 </body>
 </html>
-
+```
