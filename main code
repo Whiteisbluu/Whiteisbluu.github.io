@@ -57,21 +57,6 @@
       margin-bottom: 0.5rem;
     }
 
-    .part.winter {
-      justify-content: space-between;
-      padding-right: 8vw;
-    }
-
-    .side-photo {
-      width: min(340px, 32vw);
-      height: min(420px, 55vh);
-      object-fit: cover;
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-      -webkit-mask-image: radial-gradient(ellipse 85% 85% at center, black 65%, transparent 100%);
-      mask-image: radial-gradient(ellipse 85% 85% at center, black 65%, transparent 100%);
-    }
-
     p.info {
       font-size: 0.9rem;
       font-weight: 400;
@@ -98,12 +83,11 @@
     </div>
   </div>
 
-  <div class="part winter" id="winter">
+  <div class="part" id="winter">
     <div class="glass">
       <h1>WINTER</h1>
       <p class="info">test</p>
     </div>
-    <img class="side-photo" src="winter.jpeg" alt="Winter">
   </div>
 
   <div class="part" id="giselle">
