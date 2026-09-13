@@ -1,1 +1,23 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  span {
+    color: white;
+    font-family: sans-serif;
+    font-size: 3rem;
+  }
+</style>
+</head>
+<body>
+<span>white</span>
+</body>
+</html>
