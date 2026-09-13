@@ -4,5 +4,6 @@ hope yall liked this :D
 https://www.instagram.com/khennjhay_/👀
 
 credits:
-Hour glass texture
-<!DOCTYPE html>
+<a href="https://forms.gle/xWQR913MbiwUmJYv7" style="border: 2px solid black; padding: 10px 20px; text-decoration: none; color: black; display: inline-block;">
+  Fill Out Form
+</a>
