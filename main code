@@ -18,16 +18,26 @@
       transition: background-color 0.05s linear;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+    }
+
     .part {
       height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      padding-left: 8vw;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
 
     .glass {
-      padding: 1.4rem 3rem;
-      border-radius: 100px;
+      width: min(420px, 90vw);
+      padding: 1.6rem 2rem;
+      border-radius: 28px;
+      text-align: left;
       backdrop-filter: blur(12px) saturate(160%);
       -webkit-backdrop-filter: blur(12px) saturate(160%);
       border: 1px solid rgba(255, 255, 255, 0.25);
@@ -39,34 +49,105 @@
     }
 
     h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      font-weight: 500;
-      letter-spacing: 0.05em;
+      font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+      font-weight: 600;
+      letter-spacing: 0.03em;
       color: #ffffff;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .part.winter {
+      justify-content: space-between;
+      padding-right: 8vw;
+    }
+
+    .side-photo {
+      width: min(340px, 32vw);
+      height: min(420px, 55vh);
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      -webkit-mask-image: radial-gradient(ellipse 85% 85% at center, black 65%, transparent 100%);
+      mask-image: radial-gradient(ellipse 85% 85% at center, black 65%, transparent 100%);
+    }
+
+    p.info {
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
 
-  <div class="part"><div class="glass"><h1>white</h1></div></div>
-  <div class="part"><div class="glass"><h1>KARINA</h1></div></div>
-  <div class="part"><div class="glass"><h1>WINTER</h1></div></div>
-  <div class="part"><div class="glass"><h1>GISELLE</h1></div></div>
-  <div class="part"><div class="glass"><h1>NINGNING</h1></div></div>
+  <div class="part" id="white">
+    <div class="glass">
+      <h1>white</h1>
+      <p class="info">test</p>
+    </div>
+  </div>
+
+  <div class="part" id="karina">
+    <div class="glass">
+      <h1>KARINA</h1>
+      <p class="info">test</p>
+    </div>
+  </div>
+
+  <div class="part winter" id="winter">
+    <div class="glass">
+      <h1>WINTER</h1>
+      <p class="info">test</p>
+    </div>
+    <img class="side-photo" src="winter.jpeg" alt="Winter">
+  </div>
+
+  <div class="part" id="giselle">
+    <div class="glass">
+      <h1>GISELLE</h1>
+      <p class="info">test</p>
+    </div>
+  </div>
+
+  <div class="part" id="ningning">
+    <div class="glass">
+      <h1>NINGNING</h1>
+      <p class="info">test</p>
+    </div>
+  </div>
 
   <script>
     const body = document.body;
+    const headings = document.querySelectorAll('h1, p.info');
     let ticking = false;
 
     function update() {
       const maxScroll = document.body.scrollHeight - window.innerHeight;
       const t = maxScroll > 0 ? window.scrollY / maxScroll : 0;
 
+      // triangle wave: 0 -> 1 -> 0 as you scroll top -> middle -> bottom
       const wave = t < 0.5 ? t * 2 : (1 - t) * 2;
       const bg = Math.round(wave * 255);
 
+      // smooth but steep curve: text stays near full white/black most of the
+      // time, blending continuously through a short transition near the middle
+      const k = 0.08;
+      const lightness = 1 / (1 + Math.exp(-k * (bg - 127.5))); // 0 -> 1
+      const fg = Math.round(255 * (1 - lightness));
+      const isLight = bg > 128;
+
       body.style.backgroundColor = `rgb(${bg}, ${bg}, ${bg})`;
+
+      headings.forEach(h => {
+        h.style.color = `rgb(${fg}, ${fg}, ${fg})`;
+        h.style.textShadow = isLight
+          ? '0 1px 2px rgba(255,255,255,0.3)'
+          : '0 1px 2px rgba(0,0,0,0.3)';
+      });
 
       ticking = false;
     }
@@ -83,3 +164,4 @@
 
 </body>
 </html>
+
