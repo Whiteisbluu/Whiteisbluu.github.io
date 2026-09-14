@@ -68,7 +68,4 @@ vcpkg_installed/
 Testing/
 .cache/
 
-# qwen-code settings
-.qwen/
-gha-creds-*.json
 
