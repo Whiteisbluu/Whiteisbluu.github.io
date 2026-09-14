@@ -11,15 +11,41 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+    }
+
     body {
       position: relative;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       background-color: #000000;
+      color: #ffffff;
+      overflow-x: hidden;
     }
 
-    html {
-      scroll-behavior: smooth;
-      scroll-snap-type: y mandatory;
+    .bg-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('IMG_0022.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.45;
+      filter: brightness(0.85) contrast(1.1);
+      z-index: -2;
+    }
+
+    canvas#stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
 
     .part {
@@ -32,19 +58,19 @@
       scroll-snap-stop: always;
     }
 
+    /* Ultra-Clear Glassmorphism Styling */
     .glass {
       width: min(420px, 90vw);
       padding: 1.6rem 2rem;
       border-radius: 28px;
       text-align: left;
-      backdrop-filter: blur(12px) saturate(160%);
-      -webkit-backdrop-filter: blur(12px) saturate(160%);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.02);
       box-shadow:
-        inset 0 1px 1px rgba(255, 255, 255, 0.4),
-        inset 0 -1px 8px rgba(255, 255, 255, 0.05),
-        0 8px 32px rgba(0, 0, 0, 0.25);
+        inset 0 1px 1px rgba(255, 255, 255, 0.25),
+        0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
@@ -52,17 +78,8 @@
       font-weight: 600;
       letter-spacing: 0.03em;
       color: #ffffff;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
       margin-bottom: 0.5rem;
-    }
-
-    canvas#stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
     }
 
     p.info {
@@ -70,13 +87,15 @@
       font-weight: 400;
       line-height: 1.5;
       color: #ffffff;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-      opacity: 0.85;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+      opacity: 0.95;
     }
+
     p.info a {
       color: #ffffff;
       text-decoration: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      transition: border-color 0.2s;
     }
 
     p.info a:hover {
@@ -86,6 +105,7 @@
 </head>
 <body>
 
+  <div class="bg-image"></div>
   <canvas id="stars"></canvas>
 
   <div class="part" id="about-me">
