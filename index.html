@@ -53,18 +53,6 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    .top-strip {
-      position: fixed;
-      top: 0;
-      left: 1.25rem;
-      right: 1.25rem;
-      height: 10px;
-      background: #E0115F;
-      border-radius: 0 0 8px 8px;
-      z-index: 110;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
-    }
-
     .loader {
       position: fixed;
       inset: 0;
@@ -153,8 +141,7 @@
       align-items: center;
       justify-content: center;
       background: #E0115F;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+      border: none;
       z-index: 70;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
@@ -324,9 +311,8 @@
       right: calc(1.5rem + env(safe-area-inset-right, 0px));
       width: 280px;
       height: 56px;
-      background: #E0115F;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+      background: #1e1e1e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -354,7 +340,7 @@
     .np-title {
       font-size: 0.78rem;
       font-weight: 600;
-      color: #ffffff;
+      color: #E0115F; /* Changed to match your pink buttons */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -363,7 +349,7 @@
 
     .np-artist {
       font-size: 0.68rem;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(224, 17, 95, 0.7); /* Subtle pink tint to match */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -416,9 +402,8 @@
       right: calc(1.5rem + env(safe-area-inset-right, 0px));
       width: 280px;
       max-height: 300px;
-      background: #E0115F;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+      background: #1e1e1e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 12px;
       z-index: 61;
       opacity: 0;
@@ -578,16 +563,6 @@
       position: relative;
     }
 
-    #about-me .glass {
-      width: min(520px, 78vw);
-      max-height: none;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      padding: 0;
-      overflow: visible;
-    }
-
     .btn-row {
       display: flex;
       gap: 0.6rem;
@@ -600,10 +575,9 @@
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.03em;
-      color: #E0115F;
-      background: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 0 1px rgba(224, 17, 95, 0.2) inset;
+      color: #ffffff;
+      background: #E0115F;
+      border: none;
       border-radius: 10px;
       padding: 0.5rem 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -669,10 +643,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 0 1px rgba(224, 17, 95, 0.2) inset;
-      color: #E0115F;
+      background: #E0115F;
+      border: none;
+      color: #ffffff;
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
@@ -872,8 +845,6 @@
 </head>
 <body>
 
-  <div class="top-strip" aria-hidden="true"></div>
-
   <div class="loader" id="loader">
     <div class="loader-content">
       <div class="loader-text">
@@ -903,13 +874,13 @@
         <span class="page-number">01</span>
         <span class="page-name">About</span>
       </div>
-      <div class="page-item" data-target="page2">
+      <div class="page-item" data-target="image">
         <span class="page-number">02</span>
-        <span class="page-name">blank</span>
+        <span class="page-name">Gallery</span>
       </div>
       <div class="page-item" data-target="page3">
         <span class="page-number">03</span>
-        <span class="page-name">Gallery</span>
+        <span class="page-name">blank</span>
       </div>
       <div class="page-item" data-target="page4">
         <span class="page-number">04</span>
@@ -1008,11 +979,7 @@
     </div>
   </div>
 
-  <div class="part blank-page" id="page2">
-    <div class="blank-label">blank</div>
-  </div>
-
-  <div class="part" id="page3">
+  <div class="part" id="image">
     <div class="image-container">
       <h1 class="image-title">Image</h1>
       <div class="image-grid">
@@ -1030,6 +997,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="part blank-page" id="page3">
+    <div class="blank-label">blank</div>
   </div>
 
   <div class="part blank-page" id="page4">
@@ -1122,8 +1093,8 @@
     }
 
     const songs = [
-      { id: 'LBhcqYqeu0U', title: 'Lemonade', artist: 'aespa' },
-      { id: 'fyk6vjwI3wc', title: 'Supernova Love', artist: 'IVE' }
+      { id: 'LBhcqYqeu0U', title: 'Supernova', artist: 'aespa' },
+      { id: 'fyk6vjwI3wc', title: 'Rich Man', artist: 'IVE' }
     ];
 
     const nowPlaying = document.getElementById('nowPlaying');
