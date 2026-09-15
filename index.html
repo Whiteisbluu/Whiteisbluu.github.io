@@ -242,7 +242,7 @@
       flex-wrap: wrap;
     }
 
-    .open-modal-btn {
+    ..open-modal-btn {
       font-family: inherit;
       font-size: 0.8rem;
       font-weight: 600;
@@ -253,8 +253,11 @@
       border-radius: 100px;
       padding: 0.5rem 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
     }
-
+    
     .open-modal-btn:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
