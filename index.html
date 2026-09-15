@@ -59,7 +59,7 @@
       left: 1.25rem;
       right: 1.25rem;
       height: 10px;
-      background: #ffffff;
+      background: #E0115F;
       border-radius: 0 0 8px 8px;
       z-index: 110;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
@@ -152,9 +152,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #E0115F;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+      background: #4a4a4a;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
       z-index: 70;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
@@ -578,6 +578,16 @@
       position: relative;
     }
 
+    #about-me .glass {
+      width: min(520px, 78vw);
+      max-height: none;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
     .btn-row {
       display: flex;
       gap: 0.6rem;
@@ -893,13 +903,13 @@
         <span class="page-number">01</span>
         <span class="page-name">About</span>
       </div>
-      <div class="page-item" data-target="image">
+      <div class="page-item" data-target="page2">
         <span class="page-number">02</span>
-        <span class="page-name">Gallery</span>
+        <span class="page-name">blank</span>
       </div>
       <div class="page-item" data-target="page3">
         <span class="page-number">03</span>
-        <span class="page-name">blank</span>
+        <span class="page-name">Gallery</span>
       </div>
       <div class="page-item" data-target="page4">
         <span class="page-number">04</span>
@@ -998,7 +1008,11 @@
     </div>
   </div>
 
-  <div class="part" id="image">
+  <div class="part blank-page" id="page2">
+    <div class="blank-label">blank</div>
+  </div>
+
+  <div class="part" id="page3">
     <div class="image-container">
       <h1 class="image-title">Image</h1>
       <div class="image-grid">
@@ -1016,10 +1030,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="part blank-page" id="page3">
-    <div class="blank-label">blank</div>
   </div>
 
   <div class="part blank-page" id="page4">
