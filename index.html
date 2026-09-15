@@ -10,8 +10,11 @@
     frame-src https://www.youtube.com;
     child-src https://www.youtube.com;
     img-src 'self' data: https://i.ytimg.com;
-    style-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
   ">
+ 
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 
   <title>@Whiteisbluu</title>
   <style>
@@ -291,9 +294,9 @@
     }
 
     .name-title {
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Black Han Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: clamp(2rem, 5vw, 2.8rem);
-      font-weight: 600;
+      font-weight: 400;
       letter-spacing: 0.03em;
       line-height: 1.15;
       color: #ffffff;
