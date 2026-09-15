@@ -129,6 +129,36 @@
       -webkit-touch-callout: none;
     }
 
+    .settings-btn {
+      position: fixed;
+      top: 2rem;
+      top: calc(2rem + env(safe-area-inset-top, 0px));
+      left: 2rem;
+      left: calc(2rem + env(safe-area-inset-left, 0px));
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a1a;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 60;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .settings-btn:hover {
+      background: #2a2a2a;
+      transform: rotate(90deg);
+    }
+
+    .settings-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #ffffff;
+    }
+
     .music-toggle {
       position: fixed;
       bottom: 2rem;
@@ -232,32 +262,6 @@
       pointer-events: none;
     }
 
-    .bg-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      background-image: url('IMG_0022.jpeg');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.45;
-      filter: brightness(0.85) contrast(1.1);
-      -webkit-filter: brightness(0.85) contrast(1.1);
-      z-index: -2;
-    }
-
-    canvas#stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-    }
-
     .part {
       height: 100vh;
       height: -webkit-fill-available;
@@ -281,14 +285,6 @@
       padding: 1.6rem 2rem;
       border-radius: 28px;
       text-align: left;
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow:
-        inset 0 1px 1px rgba(255, 255, 255, 0.4),
-        inset 0 -1px 8px rgba(255, 255, 255, 0.05),
-        0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     .glass::-webkit-scrollbar {
@@ -302,7 +298,6 @@
       letter-spacing: 0.03em;
       line-height: 1.1;
       color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
       margin-bottom: 0.5rem;
     }
 
@@ -311,7 +306,6 @@
       font-weight: 600;
       letter-spacing: 0.03em;
       color: #ffffff;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
       margin-bottom: 0.5rem;
     }
 
@@ -333,6 +327,8 @@
       letter-spacing: 0.03em;
       color: #ffffff;
       background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 100px;
       padding: 0.5rem 1.2rem;
@@ -385,7 +381,6 @@
       font-weight: 400;
       line-height: 1.5;
       color: #ffffff;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
       opacity: 0.95;
     }
 
@@ -404,6 +399,8 @@
       align-items: center;
       justify-content: center;
       background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: #ffffff;
       text-decoration: none;
@@ -471,7 +468,6 @@
       font-size: 0.85rem;
       font-weight: 600;
       letter-spacing: 0.04em;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     @media (max-width: 900px) {
@@ -536,6 +532,18 @@
         right: 1rem;
         right: calc(1rem + env(safe-area-inset-right, 0px));
       }
+      .settings-btn {
+        top: 1.5rem;
+        top: calc(1.5rem + env(safe-area-inset-top, 0px));
+        left: 1.5rem;
+        left: calc(1.5rem + env(safe-area-inset-left, 0px));
+        width: 44px;
+        height: 44px;
+      }
+      .settings-btn svg {
+        width: 18px;
+        height: 18px;
+      }
       .music-toggle {
         bottom: 1.5rem;
         bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
@@ -594,8 +602,11 @@
 
   <div id="ytplayer"></div>
 
-  <div class="bg-image"></div>
-  <canvas id="stars"></canvas>
+  <button class="settings-btn" aria-label="Settings">
+    <svg viewBox="0 0 24 24">
+      <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+    </svg>
+  </button>
 
   <button class="music-toggle" id="musicToggle" aria-label="Toggle music">
     <svg class="icon-play" viewBox="0 0 24 24">
@@ -697,52 +708,6 @@
       });
     }
 
-    const canvas = document.getElementById('stars');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    let lastTime = 0;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function createStars() {
-      const count = Math.floor((canvas.width * canvas.height) / 8000);
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 1.3 + 0.3,
-        speed: Math.random() * 0.15 + 0.02,
-        twinkleSpeed: Math.random() * 0.03 + 0.01,
-        twinklePhase: Math.random() * Math.PI * 2
-      }));
-    }
-
-    function draw(currentTime) {
-      if (!lastTime) lastTime = currentTime;
-      const dtFactor = (currentTime - lastTime) / 16.67;
-      lastTime = currentTime;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(star => {
-        star.y += star.speed * dtFactor;
-        if (star.y > canvas.height) {
-          star.y = 0;
-          star.x = Math.random() * canvas.width;
-        }
-        star.twinklePhase += star.twinkleSpeed * dtFactor;
-        const raw = Math.sin(star.twinklePhase);
-        const opacity = Math.max(0, raw) * 0.8 + 0.2;
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(draw);
-    }
-
     const musicToggle = document.getElementById('musicToggle');
     const loader = document.getElementById('loader');
     let ytPlayer;
@@ -802,15 +767,6 @@
         ytPlayer.playVideo();
       }
     });
-
-    window.addEventListener('resize', () => {
-      resize();
-      createStars();
-    });
-
-    resize();
-    createStars();
-    requestAnimationFrame(draw);
 
     const thumb = document.getElementById('indicatorThumb');
     const dots = document.querySelectorAll('.indicator-dot');
