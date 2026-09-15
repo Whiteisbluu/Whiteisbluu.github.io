@@ -105,17 +105,12 @@
       50% { opacity: 0.25; }
     }
 
-    .music-controls {
+    .music-toggle {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      display: flex;
-      gap: 0.6rem;
-      align-items: center;
-      z-index: 50;
-    }
-
-    .music-toggle, .next-track-btn {
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -124,22 +119,12 @@
       backdrop-filter: blur(16px) saturate(180%);
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #ffffff;
+      z-index: 50;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       cursor: pointer;
     }
 
-    .music-toggle {
-      width: 52px;
-      height: 52px;
-    }
-
-    .next-track-btn {
-      width: 42px;
-      height: 42px;
-    }
-
-    .music-toggle:hover, .next-track-btn:hover {
+    .music-toggle:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: scale(1.08);
     }
@@ -181,16 +166,6 @@
     @keyframes eqBounce {
       0% { height: 6px; }
       100% { height: 18px; }
-    }
-
-    #ytplayer {
-      position: fixed;
-      bottom: -500px;
-      right: -500px;
-      width: 500px;
-      height: 500px;
-      z-index: -999;
-      pointer-events: none;
     }
 
     .bg-image {
@@ -420,26 +395,19 @@
     </div>
   </div>
 
-  <div id="ytplayer"></div>
+  <audio id="bgMusic"></audio>
 
   <div class="bg-image"></div>
   <canvas id="stars"></canvas>
 
-  <div class="music-controls">
-    <button class="next-track-btn" id="nextTrackBtn" aria-label="Next track">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-        <path d="M5 4l10 8-10 8V4zm12 0v16h2V4h-2z"/>
-      </svg>
-    </button>
-    <button class="music-toggle" id="musicToggle" aria-label="Toggle ambient music">
-      <div class="eq-bars">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </button>
-  </div>
+  <button class="music-toggle" id="musicToggle" aria-label="Toggle ambient music">
+    <div class="eq-bars">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
 
   <div class="scroll-container">
     <div class="part" id="about-me">
@@ -511,8 +479,6 @@
     </div>
   </div>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-
   <script>
     function togglePanel(targetId) {
       const panels = document.querySelectorAll('.expand-panel');
@@ -571,75 +537,31 @@
       requestAnimationFrame(draw);
     }
 
+    const audio = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
-    const nextTrackBtn = document.getElementById('nextTrackBtn');
-    let ytPlayer;
-    let musicPlaying = false;
-    let userClickedEnter = false;
+    const loader = document.getElementById('loader');
     
-    const videoIds = ['LBhcqYqeu0U', 'fyk6vjwI3wc'];
-    let currentTrack = 0;
+    const tracks = ['song1.mp3', 'song2.mp3'];
+    let musicPlaying = false;
 
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('ytplayer', {
-        width: '500',
-        height: '500',
-        videoId: videoIds[currentTrack],
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          playsinline: 1
-        },
-        events: {
-          onReady: function(event) {
-            event.target.setVolume(50);
-            if (userClickedEnter) {
-              event.target.playVideo();
-            }
-          },
-          onStateChange: function(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-              nextTrack();
-            }
-          }
-        }
-      });
-    }
-
-    function nextTrack() {
-      currentTrack = (currentTrack + 1) % videoIds.length;
-      if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-        ytPlayer.loadVideoById(videoIds[currentTrack]);
-        musicPlaying = true;
-        musicToggle.classList.add('playing');
-      }
-    }
-
-    nextTrackBtn.addEventListener('click', nextTrack);
+    audio.src = tracks[Math.floor(Math.random() * tracks.length)];
+    audio.volume = 0.5;
 
     musicToggle.addEventListener('click', () => {
       musicPlaying = !musicPlaying;
       musicToggle.classList.toggle('playing', musicPlaying);
-      
-      if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-        if (musicPlaying) {
-          ytPlayer.playVideo();
-        } else {
-          ytPlayer.pauseVideo();
-        }
+      if (musicPlaying) {
+        audio.play();
+      } else {
+        audio.pause();
       }
     });
 
-    const loader = document.getElementById('loader');
     loader.addEventListener('click', () => {
       loader.classList.add('hidden');
-      userClickedEnter = true;
       musicPlaying = true;
       musicToggle.classList.add('playing');
-      
-      if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-        ytPlayer.playVideo();
-      }
+      audio.play();
     });
 
     window.addEventListener('resize', () => {
