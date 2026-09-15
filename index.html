@@ -51,7 +51,6 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
     }
 
     .loader {
@@ -141,26 +140,41 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #1a1a1a;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #E0115F;
+      border: none;
       z-index: 70;
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0;
     }
 
     .settings-btn:hover {
-      background: #2a2a2a;
+      background: #c40f52;
     }
 
-    .settings-btn.open svg {
-      transform: rotate(90deg);
+    .settings-btn.open {
+      left: calc(300px - 60px);
+      left: calc(300px - 60px + env(safe-area-inset-left, 0px));
     }
 
-    .settings-btn svg {
+    .settings-btn .bar {
       width: 20px;
-      height: 20px;
-      fill: #ffffff;
-      transition: transform 0.4s ease;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-btn.open .bar:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .settings-btn.open .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .settings-btn.open .bar:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
     }
 
     .dashboard-overlay {
@@ -269,7 +283,7 @@
       transform: translateY(-50%);
       width: 3px;
       height: 60%;
-      background: #ffffff;
+      background: #E0115F;
       border-radius: 0 3px 3px 0;
     }
 
@@ -282,36 +296,30 @@
     }
 
     .page-item.active .page-number {
-      color: #ffffff;
+      color: #E0115F;
     }
 
-    /* Apple Music-style Now Playing Bar */
     .now-playing {
       position: fixed;
       bottom: 1.5rem;
       bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-      left: 1rem;
-      left: calc(1rem + env(safe-area-inset-left, 0px));
-      right: 1rem;
-      right: calc(1rem + env(safe-area-inset-right, 0px));
-      max-width: 520px;
-      margin: 0 auto;
-      height: 64px;
+      right: 1.5rem;
+      right: calc(1.5rem + env(safe-area-inset-right, 0px));
+      width: 280px;
+      height: 56px;
       background: #1e1e1e;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      padding: 0.5rem;
+      gap: 0.5rem;
+      padding: 0.4rem;
       z-index: 60;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     .np-art {
-      width: 52px;
-      height: 52px;
+      width: 44px;
+      height: 44px;
       border-radius: 8px;
       object-fit: cover;
       flex-shrink: 0;
@@ -326,7 +334,7 @@
     }
 
     .np-title {
-      font-size: 0.88rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: #ffffff;
       white-space: nowrap;
@@ -336,7 +344,7 @@
     }
 
     .np-artist {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       color: rgba(255, 255, 255, 0.55);
       white-space: nowrap;
       overflow: hidden;
@@ -345,45 +353,154 @@
       line-height: 1.2;
     }
 
-    .np-play {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+    .np-controls {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .np-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       border: none;
       background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      flex-shrink: 0;
-      transition: transform 0.2s ease, background 0.2s ease;
+      transition: background 0.2s ease;
     }
 
-    .np-play:hover {
+    .np-btn:hover {
       background: rgba(255, 255, 255, 0.08);
     }
 
-    .np-play:active {
-      transform: scale(0.92);
+    .np-btn:active {
+      background: rgba(255, 255, 255, 0.15);
     }
 
-    .np-play svg {
-      width: 22px;
-      height: 22px;
+    .np-btn svg {
+      width: 16px;
+      height: 16px;
       fill: #ffffff;
     }
 
-    .np-play .icon-pause { display: none; }
+    .np-btn .icon-pause { display: none; }
     .now-playing.playing .icon-play { display: none; }
     .now-playing.playing .icon-pause { display: block; }
 
-    .now-playing.playing .np-art {
-      animation: spin 8s linear infinite;
+    .queue-panel {
+      position: fixed;
+      bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px) + 64px);
+      right: 1.5rem;
+      right: calc(1.5rem + env(safe-area-inset-right, 0px));
+      width: 280px;
+      max-height: 300px;
+      background: #1e1e1e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      z-index: 61;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      overflow: hidden;
     }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    .queue-panel.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .queue-header {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .queue-list {
+      max-height: 240px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .queue-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .queue-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .queue-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .queue-item.active {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .queue-item-art {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #2a2a2a;
+    }
+
+    .queue-item-info {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .queue-item-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+
+    .queue-item-artist {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+
+    .queue-item.active .queue-item-title {
+      color: #E0115F;
+    }
+
+    .queue-item-index {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.3);
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .queue-item.active .queue-item-index {
+      color: #E0115F;
     }
 
     #ytplayer {
@@ -419,6 +536,8 @@
       padding: 1.6rem 2rem;
       border-radius: 28px;
       text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .glass::-webkit-scrollbar {
@@ -453,8 +572,8 @@
       font-weight: 600;
       letter-spacing: 0.03em;
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: #E0115F;
+      border: none;
       border-radius: 10px;
       padding: 0.5rem 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -462,14 +581,11 @@
     }
 
     .open-modal-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      background: #c40f52;
     }
 
     .open-modal-btn:active {
-      transform: translateY(0);
-      background: rgba(255, 255, 255, 0.25);
+      background: #a80d47;
     }
 
     .expand-panel {
@@ -494,7 +610,7 @@
       grid-template-rows: 1fr;
       margin-top: 0.9rem;
       padding-top: 0.9rem;
-      border-top-color: rgba(255, 255, 255, 0.2);
+      border-top-color: rgba(255, 255, 255, 0.15);
     }
 
     .expand-panel.open > .panel-content {
@@ -523,22 +639,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: #E0115F;
+      border: none;
       color: #ffffff;
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     .social-icons a:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      background: #c40f52;
     }
 
     .social-icons a:active {
-      transform: scale(0.94);
-      background: rgba(255, 255, 255, 0.3);
+      background: #a80d47;
     }
 
     #image {
@@ -564,7 +677,7 @@
     .image-card {
       aspect-ratio: 4 / 3;
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       background-color: transparent;
       background-size: cover;
       background-position: center;
@@ -572,7 +685,7 @@
       align-items: flex-end;
       padding: 1rem;
       overflow: hidden;
-      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease;
     }
 
     @supports not (aspect-ratio: 4 / 3) {
@@ -583,8 +696,7 @@
 
     .image-card:hover {
       transform: translateY(-5px) scale(1.02);
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.4);
     }
 
     .image-card span {
@@ -626,6 +738,13 @@
       }
       .social-icons {
         gap: 0.5rem;
+      }
+      .now-playing, .queue-panel {
+        width: 240px;
+      }
+      .np-art {
+        width: 40px;
+        height: 40px;
       }
     }
 
@@ -672,26 +791,26 @@
         width: 44px;
         height: 44px;
       }
-      .settings-btn svg {
-        width: 18px;
-        height: 18px;
+      .settings-btn.open {
+        left: calc(300px - 56px);
+        left: calc(300px - 56px + env(safe-area-inset-left, 0px));
       }
-      .now-playing {
-        height: 58px;
+      .settings-btn .bar {
+        width: 18px;
+      }
+      .now-playing, .queue-panel {
+        width: 260px;
         bottom: 1rem;
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+        right: 1rem;
+        right: calc(1rem + env(safe-area-inset-right, 0px));
+      }
+      .queue-panel {
+        bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 64px);
       }
       .np-art {
-        width: 46px;
-        height: 46px;
-      }
-      .np-play {
         width: 40px;
         height: 40px;
-      }
-      .np-play svg {
-        width: 20px;
-        height: 20px;
       }
     }
 
@@ -699,11 +818,10 @@
       .open-modal-btn:hover,
       .social-icons a:hover {
         transform: none;
-        box-shadow: none;
       }
       .image-card:active {
         transform: scale(0.98);
-        border-color: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.4);
       }
     }
 
@@ -735,9 +853,9 @@
   <div id="ytplayer"></div>
 
   <button class="settings-btn" id="settingsBtn" aria-label="Menu">
-    <svg viewBox="0 0 24 24">
-      <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-    </svg>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
   </button>
 
   <div class="dashboard-overlay" id="dashboardOverlay"></div>
@@ -771,20 +889,42 @@
     </div>
   </aside>
 
+  <div class="queue-panel" id="queuePanel">
+    <div class="queue-header">Queue</div>
+    <div class="queue-list" id="queueList"></div>
+  </div>
+
   <div class="now-playing" id="nowPlaying">
     <img class="np-art" id="npArt" src="https://i.ytimg.com/vi/LBhcqYqeu0U/mqdefault.jpg" alt="Album Art">
     <div class="np-info">
       <div class="np-title" id="npTitle">Loading...</div>
       <div class="np-artist" id="npArtist">—</div>
     </div>
-    <button class="np-play" id="npPlay" aria-label="Play/Pause">
-      <svg class="icon-play" viewBox="0 0 24 24">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      <svg class="icon-pause" viewBox="0 0 24 24">
-        <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-      </svg>
-    </button>
+    <div class="np-controls">
+      <button class="np-btn" id="npQueue" aria-label="Queue">
+        <svg viewBox="0 0 24 24">
+          <path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/>
+        </svg>
+      </button>
+      <button class="np-btn" id="npPrev" aria-label="Previous">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+        </svg>
+      </button>
+      <button class="np-btn" id="npPlay" aria-label="Play/Pause">
+        <svg class="icon-play" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg class="icon-pause" viewBox="0 0 24 24">
+          <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+        </svg>
+      </button>
+      <button class="np-btn" id="npNext" aria-label="Next">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="part" id="about-me">
@@ -881,7 +1021,6 @@
       });
     }
 
-    // Dashboard logic
     const settingsBtn = document.getElementById('settingsBtn');
     const dashboard = document.getElementById('dashboard');
     const dashboardOverlay = document.getElementById('dashboardOverlay');
@@ -899,7 +1038,8 @@
       settingsBtn.classList.remove('open');
     }
 
-    settingsBtn.addEventListener('click', () => {
+    settingsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (dashboard.classList.contains('open')) {
         closeDashboard();
       } else {
@@ -916,13 +1056,13 @@
         if (targetSection) {
           pageItems.forEach(i => i.classList.remove('active'));
           item.classList.add('active');
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-          closeDashboard();
+          const targetTop = targetSection.offsetTop;
+          window.scrollTo({ top: targetTop, behavior: 'smooth' });
+          setTimeout(closeDashboard, 300);
         }
       });
     });
 
-    // Update active page on scroll
     const sections = document.querySelectorAll('.part');
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
@@ -942,7 +1082,6 @@
       sections.forEach(section => observer.observe(section));
     }
 
-    // Music player
     const songs = [
       { id: 'LBhcqYqeu0U', title: 'Supernova', artist: 'aespa' },
       { id: 'fyk6vjwI3wc', title: 'Rich Man', artist: 'IVE' }
@@ -953,25 +1092,88 @@
     const npTitle = document.getElementById('npTitle');
     const npArtist = document.getElementById('npArtist');
     const npPlay = document.getElementById('npPlay');
+    const npNext = document.getElementById('npNext');
+    const npPrev = document.getElementById('npPrev');
+    const npQueue = document.getElementById('npQueue');
+    const queuePanel = document.getElementById('queuePanel');
+    const queueList = document.getElementById('queueList');
     const loader = document.getElementById('loader');
 
     let ytPlayer;
     let musicPlaying = false;
     let userClickedEnter = false;
     let currentSongIndex = Math.floor(Math.random() * songs.length);
+    let previousSongIndex = -1;
 
     function updateNowPlaying(song) {
       npTitle.textContent = song.title;
       npArtist.textContent = song.artist;
       npArt.src = `https://i.ytimg.com/vi/${song.id}/mqdefault.jpg`;
+      updateQueue();
+    }
+
+    function updateQueue() {
+      queueList.innerHTML = '';
+      songs.forEach((song, index) => {
+        const item = document.createElement('div');
+        item.className = 'queue-item' + (index === currentSongIndex ? ' active' : '');
+        item.innerHTML = `
+          <span class="queue-item-index">${index + 1}</span>
+          <img class="queue-item-art" src="https://i.ytimg.com/vi/${song.id}/mqdefault.jpg" alt="">
+          <div class="queue-item-info">
+            <div class="queue-item-title">${song.title}</div>
+            <div class="queue-item-artist">${song.artist}</div>
+          </div>
+        `;
+        item.addEventListener('click', () => {
+          loadSong(index);
+          if (!musicPlaying) {
+            musicPlaying = true;
+            nowPlaying.classList.add('playing');
+            if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+              ytPlayer.playVideo();
+            }
+          }
+        });
+        queueList.appendChild(item);
+      });
     }
 
     function loadSong(index) {
+      previousSongIndex = currentSongIndex;
       currentSongIndex = index;
       const song = songs[currentSongIndex];
       updateNowPlaying(song);
       if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
         ytPlayer.loadVideoById(song.id);
+      }
+    }
+
+    function nextSong() {
+      let nextIndex;
+      if (songs.length > 1) {
+        do {
+          nextIndex = Math.floor(Math.random() * songs.length);
+        } while (nextIndex === currentSongIndex);
+      } else {
+        nextIndex = 0;
+      }
+      loadSong(nextIndex);
+    }
+
+    function prevSong() {
+      if (previousSongIndex >= 0 && previousSongIndex !== currentSongIndex) {
+        loadSong(previousSongIndex);
+      } else {
+        let prevIndex;
+        if (songs.length > 1) {
+          do {
+            prevIndex = Math.floor(Math.random() * songs.length);
+          } while (prevIndex === currentSongIndex);
+        } else {
+          prevIndex = 0;
+        }
+        loadSong(prevIndex);
       }
     }
 
@@ -997,15 +1199,7 @@
           },
           onStateChange: function(event) {
             if (event.data === YT.PlayerState.ENDED) {
-              let nextIndex;
-              if (songs.length > 1) {
-                do {
-                  nextIndex = Math.floor(Math.random() * songs.length);
-                } while (nextIndex === currentSongIndex);
-              } else {
-                nextIndex = 0;
-              }
-              loadSong(nextIndex);
+              nextSong();
             }
             if (event.data === YT.PlayerState.PLAYING) {
               musicPlaying = true;
@@ -1029,6 +1223,20 @@
         } else {
           ytPlayer.pauseVideo();
         }
+      }
+    });
+
+    npNext.addEventListener('click', nextSong);
+    npPrev.addEventListener('click', prevSong);
+
+    npQueue.addEventListener('click', (e) => {
+      e.stopPropagation();
+      queuePanel.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!queuePanel.contains(e.target) && !npQueue.contains(e.target)) {
+        queuePanel.classList.remove('open');
       }
     });
 
