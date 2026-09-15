@@ -224,7 +224,7 @@
     }
 
     .dashboard-header {
-      font-family: 'Black Han Sans', 'Segoe UI', sans-serif; /* Kept strictly as Black Han Sans */
+      font-family: 'Black Han Sans', 'Segoe UI', sans-serif;
       font-size: 1.4rem;
       color: #ffffff;
       margin-bottom: 0.3rem;
@@ -558,14 +558,20 @@
     }
 
     .name-title {
-      font-family: 'Noto Sans JP', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Black Han Sans', 'Noto Sans JP', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: clamp(2.4rem, 6vw, 3.4rem);
-      font-weight: 700;
-      letter-spacing: 0.01em;
+      font-weight: 400;
+      letter-spacing: 0.03em;
       line-height: 1.1;
       color: #ffffff;
       margin-top: -0.3rem;
       margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .name-title:hover {
+      color: #E0115F;
     }
 
     #about-me {
@@ -743,14 +749,14 @@
     }
 
     .page-footer {
-      position: fixed;
+      position: absolute;
       bottom: 1.5rem;
       bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-      left: 1.5rem;
-      left: calc(1.5rem + env(safe-area-inset-left, 0px));
+      left: 0;
+      width: 100%;
+      text-align: center;
       font-size: 0.7rem;
       color: rgba(255, 255, 255, 0.3);
-      z-index: 50;
       letter-spacing: 0.05em;
       pointer-events: none;
     }
@@ -852,8 +858,6 @@
       .page-footer {
         bottom: 1rem;
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-        left: 1rem;
-        left: calc(1rem + env(safe-area-inset-left, 0px));
       }
     }
 
@@ -868,43 +872,44 @@
       }
     }
 
-    /* LIGHT MODE SUPPORT BASED ON SYSTEM SETTINGS */
+    /* LIGHT MODE SUPPORT (EYE-FRIENDLY DIRTY WHITE) */
     @media (prefers-color-scheme: light) {
-      body, .loader { background-color: #fcfcfc; color: #1a1a1a; }
-      .loader-text { color: #1a1a1a; }
-      .loader-subtext { color: #1a1a1a; opacity: 0.5; }
+      body, .loader { background-color: #f4f2ec; color: #2d2b28; } 
+      .loader-text { color: #2d2b28; }
+      .loader-subtext { color: #2d2b28; opacity: 0.5; }
       
-      .dashboard { background: #f2f2f2; border-right-color: rgba(0,0,0,0.08); }
-      .dashboard-header { color: #1a1a1a; }
-      .dashboard-sub, .dashboard-label { color: rgba(0,0,0,0.5); }
-      .page-item { color: rgba(0,0,0,0.7); }
-      .page-item:hover { background: rgba(0,0,0,0.05); color: #000; }
-      .page-item.active { background: rgba(0,0,0,0.08); color: #000; }
-      .page-number { color: rgba(0,0,0,0.4); }
+      .dashboard { background: #eae8e2; border-right-color: rgba(0,0,0,0.05); }
+      .dashboard-header { color: #2d2b28; }
+      .dashboard-sub, .dashboard-label { color: rgba(45,43,40,0.55); }
+      .page-item { color: rgba(45,43,40,0.75); }
+      .page-item:hover { background: rgba(0,0,0,0.04); color: #1a1815; }
+      .page-item.active { background: rgba(0,0,0,0.06); color: #1a1815; }
+      .page-number { color: rgba(45,43,40,0.45); }
       
-      .now-playing, .queue-panel { background: #ffffff; border-color: rgba(0,0,0,0.08); box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
-      .np-art, .queue-item-art { background: #eaeaea; }
-      .np-artist { color: rgba(0,0,0,0.6); }
-      .np-btn svg { fill: #1a1a1a; }
-      .np-btn:hover { background: rgba(0,0,0,0.05); }
+      .now-playing, .queue-panel { background: #fdfcfa; border-color: rgba(0,0,0,0.06); box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+      .np-art, .queue-item-art { background: #e6e4de; }
+      .np-artist { color: rgba(45,43,40,0.65); }
+      .np-btn svg { fill: #2d2b28; }
+      .np-btn:hover { background: rgba(0,0,0,0.04); }
       
-      .queue-header { color: rgba(0,0,0,0.6); border-bottom-color: rgba(0,0,0,0.08); }
-      .queue-item-title { color: #1a1a1a; }
-      .queue-item-artist { color: rgba(0,0,0,0.5); }
-      .queue-item-index { color: rgba(0,0,0,0.3); }
+      .queue-header { color: rgba(45,43,40,0.65); border-bottom-color: rgba(0,0,0,0.06); }
+      .queue-item-title { color: #2d2b28; }
+      .queue-item-artist { color: rgba(45,43,40,0.55); }
+      .queue-item-index { color: rgba(45,43,40,0.35); }
       
-      .glass { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
-      #about-me .glass { border-color: #555555; }
-      .name-title { color: #1a1a1a; }
-      p.info { color: #222222; }
-      .expand-panel.open { border-top-color: rgba(0,0,0,0.1); }
+      .glass { background: rgba(253,252,250,0.7); border-color: rgba(0,0,0,0.08); backdrop-filter: blur(10px); }
+      #about-me .glass { border-color: #d6d4ce; }
+      .name-title { color: #2d2b28; }
+      .name-title:hover { color: #E0115F; }
+      p.info { color: #3b3935; }
+      .expand-panel.open { border-top-color: rgba(0,0,0,0.08); }
       
-      .image-card { border-color: rgba(0,0,0,0.1); }
-      .image-card:hover { border-color: rgba(0,0,0,0.25); }
+      .image-card { border-color: rgba(0,0,0,0.08); }
+      .image-card:hover { border-color: rgba(0,0,0,0.2); }
       .image-card span { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
       
-      .blank-label { color: rgba(0,0,0,0.4); }
-      .dashboard-footer, .page-footer { color: rgba(0,0,0,0.4); }
+      .blank-label { color: rgba(45,43,40,0.45); }
+      .dashboard-footer, .page-footer { color: rgba(45,43,40,0.45); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1013,7 +1018,7 @@
 
   <div class="part" id="about-me">
     <div class="glass">
-      <div class="name-title">KhennJhay</div>
+      <div class="name-title" onclick="changeName()">KhennJhay</div>
       <p class="info">Digital Artist, Graphic Artist, Programmer.</p>
 
       <div class="btn-row">
@@ -1045,8 +1050,8 @@
           </svg>
         </a>
         <a href="https://discord.com/users/890796885101649950" target="_blank" rel="noopener noreferrer" aria-label="Discord">
-          <svg viewBox="0 0 16 16" width="19" height="19" fill="currentColor">
-            <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.22 1.011a.05.05 0 0 0-.024.02C1.3 4.906.59 7.883.825 10.824a.05.05 0 0 0 .02.035 13.3 13.3 0 0 0 3.99 2.01.05.05 0 0 0 .054-.018c.306-.415.58-.85.816-1.307a.05.05 0 0 0-.028-.07 8.8 8.8 0 0 1-1.257-.593.05.05 0 0 1-.005-.083c.084-.063.168-.129.248-.196a.05.05 0 0 1 .051-.007c2.618 1.19 5.46 1.19 8.053 0a.05.05 0 0 1 .051.007c.08.067.164.133.248.196a.05.05 0 0 1-.004.083 8.8 8.8 0 0 1-1.258.593.05.05 0 0 0-.028.07c.236.457.51.892.816 1.307a.05.05 0 0 0 .054.018 13.3 13.3 0 0 0 3.99-2.01.05.05 0 0 0 .02-.035c.275-3.38-.598-6.333-1.818-8.033a.05.05 0 0 0-.024-.02zM5.33 9.463c-.895 0-1.632-.813-1.632-1.813s.72-1.813 1.632-1.813 1.649.82 1.632 1.813c0 1-.72 1.813-1.632 1.813zm5.313 0c-.895 0-1.632-.813-1.632-1.813s.72-1.813 1.632-1.813 1.649.82 1.632 1.813c0 1-.72 1.813-1.632 1.813z"/>
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor">
+            <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
           </svg>
         </a>
         <a href="https://whiteisbluu.carrd.co" target="_blank" rel="noopener noreferrer" aria-label="Carrd">
@@ -1089,15 +1094,18 @@
 
   <div class="part blank-page" id="page5">
     <div class="blank-label">blank</div>
+    <footer class="page-footer">
+      &copy; 2026 @Whiteisbluu
+    </footer>
   </div>
-
-  <footer class="page-footer">
-    &copy; 2026 @Whiteisbluu
-  </footer>
 
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
+    function changeName() {
+      document.querySelector('.name-title').textContent = 'Whiteisbluu';
+    }
+
     function togglePanel(targetId) {
       const panels = document.querySelectorAll('.expand-panel');
       panels.forEach(panel => {
