@@ -53,6 +53,18 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    .top-strip {
+      position: fixed;
+      top: 0;
+      left: 1.25rem;
+      right: 1.25rem;
+      height: 10px;
+      background: #ffffff;
+      border-radius: 0 0 8px 8px;
+      z-index: 110;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+    }
+
     .loader {
       position: fixed;
       inset: 0;
@@ -141,7 +153,8 @@
       align-items: center;
       justify-content: center;
       background: #E0115F;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
       z-index: 70;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
@@ -312,7 +325,8 @@
       width: 280px;
       height: 56px;
       background: #E0115F;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -349,7 +363,7 @@
 
     .np-artist {
       font-size: 0.68rem;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.55);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -378,11 +392,11 @@
     }
 
     .np-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .np-btn:active {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .np-btn svg {
@@ -403,7 +417,8 @@
       width: 280px;
       max-height: 300px;
       background: #E0115F;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
       border-radius: 12px;
       z-index: 61;
       opacity: 0;
@@ -421,12 +436,12 @@
 
     .queue-header {
       padding: 0.8rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .queue-list {
@@ -449,11 +464,11 @@
     }
 
     .queue-item:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .queue-item.active {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .queue-item-art {
@@ -483,7 +498,7 @@
 
     .queue-item-artist {
       font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.5);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -492,21 +507,19 @@
     }
 
     .queue-item.active .queue-item-title {
-      color: #ffffff;
-      font-weight: 700;
+      color: #E0115F;
     }
 
     .queue-item-index {
       font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.3);
       width: 18px;
       text-align: center;
       flex-shrink: 0;
     }
 
     .queue-item.active .queue-item-index {
-      color: #ffffff;
-      font-weight: 700;
+      color: #E0115F;
     }
 
     #ytplayer {
@@ -520,44 +533,49 @@
     }
 
     .part {
-      min-height: 100vh;
-      min-height: -webkit-fill-available;
-      min-height: 100dvh;
+      height: 100vh;
+      height: -webkit-fill-available;
+      height: 100dvh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 2rem 5vw;
+      justify-content: flex-start;
+      padding-left: 8vw;
       scroll-snap-align: start;
       scroll-snap-stop: normal;
       position: relative;
     }
 
-    .white-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 80px;
-      background: #ffffff;
-      z-index: 1;
+    .glass {
+      width: min(420px, 90vw);
+      max-height: 84vh;
+      max-height: 84dvh;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 1.6rem 2rem;
+      border-radius: 28px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .about-content {
-      position: relative;
-      z-index: 2;
-      width: min(420px, 90vw);
-      text-align: center;
-      padding-top: 40px;
+    .glass::-webkit-scrollbar {
+      display: none;
     }
 
     .name-title {
       font-family: 'Black Han Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      font-size: clamp(3.5rem, 10vw, 5rem);
+      font-size: clamp(2.4rem, 6vw, 3.4rem);
       font-weight: 400;
       letter-spacing: 0.03em;
       line-height: 1.1;
       color: #ffffff;
+      margin-top: -0.3rem;
       margin-bottom: 0.5rem;
+    }
+
+    #about-me {
+      position: relative;
     }
 
     .btn-row {
@@ -565,7 +583,6 @@
       gap: 0.6rem;
       margin-top: 0.9rem;
       flex-wrap: wrap;
-      justify-content: center;
     }
 
     .open-modal-btn {
@@ -575,7 +592,8 @@
       letter-spacing: 0.03em;
       color: #ffffff;
       background: #E0115F;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
       border-radius: 10px;
       padding: 0.5rem 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -600,7 +618,6 @@
       margin-top: 0;
       padding-top: 0;
       border-top: 1px solid rgba(255, 255, 255, 0);
-      text-align: left;
     }
 
     .expand-panel > .panel-content {
@@ -633,7 +650,6 @@
       gap: 0.7rem;
       margin-top: 1.2rem;
       flex-wrap: wrap;
-      justify-content: center;
     }
 
     .social-icons a {
@@ -644,7 +660,8 @@
       align-items: center;
       justify-content: center;
       background: #E0115F;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
       color: #ffffff;
       text-decoration: none;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -722,7 +739,20 @@
       text-transform: uppercase;
     }
 
+    @media (max-width: 900px) {
+      .part {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+        padding: 0 5vw;
+      }
+    }
+
     @media (max-width: 380px) {
+      .glass {
+        padding: 1.2rem 1.4rem;
+        border-radius: 22px;
+      }
       .social-icons a {
         width: 38px;
         height: 38px;
@@ -740,6 +770,9 @@
     }
 
     @media (max-height: 700px) {
+      .glass {
+        padding: 1.2rem 1.5rem;
+      }
       .name-title {
         margin-bottom: 0.2rem;
       }
@@ -829,6 +862,8 @@
 </head>
 <body>
 
+  <div class="top-strip" aria-hidden="true"></div>
+
   <div class="loader" id="loader">
     <div class="loader-content">
       <div class="loader-text">
@@ -916,8 +951,7 @@
   </div>
 
   <div class="part" id="about-me">
-    <div class="white-header"></div>
-    <div class="about-content">
+    <div class="glass">
       <div class="name-title">KhennJhay</div>
       <p class="info">Digital Artist, Graphic Artist, Programmer.</p>
 
