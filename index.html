@@ -137,19 +137,22 @@
       left: calc(2rem + env(safe-area-inset-left, 0px));
       width: 48px;
       height: 48px;
-      border-radius: 50%;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #1a1a1a;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      z-index: 60;
+      z-index: 70;
       transition: all 0.3s ease;
       cursor: pointer;
     }
 
     .settings-btn:hover {
       background: #2a2a2a;
+    }
+
+    .settings-btn.open svg {
       transform: rotate(90deg);
     }
 
@@ -157,99 +160,230 @@
       width: 20px;
       height: 20px;
       fill: #ffffff;
+      transition: transform 0.4s ease;
     }
 
-    .music-toggle {
+    .dashboard-overlay {
       position: fixed;
-      bottom: 2rem;
-      bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
-      right: 2rem;
-      right: calc(2rem + env(safe-area-inset-right, 0px));
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 65;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .dashboard-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dashboard {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      height: 100dvh;
+      width: 300px;
+      max-width: 85vw;
+      background: #121212;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 66;
+      transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem 1.5rem;
+      padding-top: calc(2rem + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .dashboard::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dashboard.open {
+      transform: translateX(0);
+    }
+
+    .dashboard-header {
+      font-family: 'Black Han Sans', 'Segoe UI', sans-serif;
+      font-size: 1.4rem;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.02em;
+    }
+
+    .dashboard-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 0.8rem;
+      padding-left: 0.5rem;
+    }
+
+    .page-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .page-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .page-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+    }
+
+    .page-item.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .page-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 60%;
+      background: #ffffff;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .page-number {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.4);
+      width: 20px;
+      text-align: center;
+    }
+
+    .page-item.active .page-number {
+      color: #ffffff;
+    }
+
+    /* Apple Music-style Now Playing Bar */
+    .now-playing {
+      position: fixed;
+      bottom: 1.5rem;
+      bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+      left: 1rem;
+      left: calc(1rem + env(safe-area-inset-left, 0px));
+      right: 1rem;
+      right: calc(1rem + env(safe-area-inset-right, 0px));
+      max-width: 520px;
+      margin: 0 auto;
+      height: 64px;
+      background: #1e1e1e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.5rem;
+      z-index: 60;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .np-art {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #2a2a2a;
+      display: block;
+    }
+
+    .np-info {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .np-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+
+    .np-artist {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.55);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+
+    .np-play {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      z-index: 60;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .music-toggle:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.08);
+    .np-play:hover {
+      background: rgba(255, 255, 255, 0.08);
     }
 
-    .music-toggle svg {
+    .np-play:active {
+      transform: scale(0.92);
+    }
+
+    .np-play svg {
       width: 22px;
       height: 22px;
       fill: #ffffff;
     }
 
-    .music-toggle .icon-pause { display: none; }
-    .music-toggle.playing .icon-play { display: none; }
-    .music-toggle.playing .icon-pause { display: block; }
+    .np-play .icon-pause { display: none; }
+    .now-playing.playing .icon-play { display: none; }
+    .now-playing.playing .icon-pause { display: block; }
 
-    .music-toggle.playing {
-      animation: buttonPulse 2s infinite;
-      border-color: rgba(255, 255, 255, 0.5);
+    .now-playing.playing .np-art {
+      animation: spin 8s linear infinite;
     }
 
-    @keyframes buttonPulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); }
-      70% { box-shadow: 0 0 0 16px rgba(255, 255, 255, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-    }
-
-    .scroll-indicator {
-      position: fixed;
-      right: 2rem;
-      right: calc(2rem + env(safe-area-inset-right, 0px));
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 50;
-    }
-
-    .indicator-track {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      padding: 8px;
-    }
-
-    .indicator-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      position: relative;
-      z-index: 2;
-      transition: background 0.3s ease;
-    }
-
-    .indicator-dot:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    .indicator-thumb {
-      position: absolute;
-      left: 8px;
-      top: 8px;
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: #ffffff;
-      z-index: 1;
-      transition:
-        transform 0.28s cubic-bezier(0.65, 0, 0.35, 1),
-        height 0.28s cubic-bezier(0.65, 0, 0.35, 1);
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     #ytplayer {
@@ -298,14 +432,7 @@
       letter-spacing: 0.03em;
       line-height: 1.1;
       color: #ffffff;
-      margin-bottom: 0.5rem;
-    }
-
-    h1 {
-      font-size: clamp(1.3rem, 2.6vw, 1.8rem);
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      color: #ffffff;
+      margin-top: -0.3rem;
       margin-bottom: 0.5rem;
     }
 
@@ -327,10 +454,8 @@
       letter-spacing: 0.03em;
       color: #ffffff;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 100px;
+      border-radius: 10px;
       padding: 0.5rem 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       cursor: pointer;
@@ -394,13 +519,11 @@
     .social-icons a {
       width: 42px;
       height: 42px;
-      border-radius: 50%;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: #ffffff;
       text-decoration: none;
@@ -470,6 +593,19 @@
       letter-spacing: 0.04em;
     }
 
+    .blank-page {
+      justify-content: center;
+      padding-left: 0;
+    }
+
+    .blank-label {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
     @media (max-width: 900px) {
       .part {
         justify-content: center;
@@ -528,10 +664,6 @@
     }
 
     @media (max-width: 768px) {
-      .scroll-indicator {
-        right: 1rem;
-        right: calc(1rem + env(safe-area-inset-right, 0px));
-      }
       .settings-btn {
         top: 1.5rem;
         top: calc(1.5rem + env(safe-area-inset-top, 0px));
@@ -544,30 +676,30 @@
         width: 18px;
         height: 18px;
       }
-      .music-toggle {
-        bottom: 1.5rem;
-        bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-        right: 1.5rem;
-        right: calc(1.5rem + env(safe-area-inset-right, 0px));
-        width: 50px;
-        height: 50px;
+      .now-playing {
+        height: 58px;
+        bottom: 1rem;
+        bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
       }
-      .music-toggle svg {
+      .np-art {
+        width: 46px;
+        height: 46px;
+      }
+      .np-play {
+        width: 40px;
+        height: 40px;
+      }
+      .np-play svg {
         width: 20px;
         height: 20px;
       }
     }
 
     @media (hover: none) and (pointer: coarse) {
-      .music-toggle:hover,
       .open-modal-btn:hover,
-      .social-icons a:hover,
-      .indicator-dot:hover {
+      .social-icons a:hover {
         transform: none;
         box-shadow: none;
-      }
-      .music-toggle:active {
-        transform: scale(0.94);
       }
       .image-card:active {
         transform: scale(0.98);
@@ -602,33 +734,62 @@
 
   <div id="ytplayer"></div>
 
-  <button class="settings-btn" aria-label="Settings">
+  <button class="settings-btn" id="settingsBtn" aria-label="Menu">
     <svg viewBox="0 0 24 24">
       <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
     </svg>
   </button>
 
-  <button class="music-toggle" id="musicToggle" aria-label="Toggle music">
-    <svg class="icon-play" viewBox="0 0 24 24">
-      <path d="M8 5v14l11-7z"/>
-    </svg>
-    <svg class="icon-pause" viewBox="0 0 24 24">
-      <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-    </svg>
-  </button>
+  <div class="dashboard-overlay" id="dashboardOverlay"></div>
 
-  <div class="scroll-indicator" id="scrollIndicator">
-    <div class="indicator-track">
-      <div class="indicator-thumb" id="indicatorThumb"></div>
-      <div class="indicator-dot" data-target="about-me" title="About"></div>
-      <div class="indicator-dot" data-target="image" title="Gallery"></div>
+  <aside class="dashboard" id="dashboard">
+    <div class="dashboard-header">Menu</div>
+    <div class="dashboard-sub">@Whiteisbluu</div>
+
+    <div class="dashboard-label">Pages</div>
+    <div class="page-list" id="pageList">
+      <div class="page-item active" data-target="about-me">
+        <span class="page-number">01</span>
+        <span class="page-name">About</span>
+      </div>
+      <div class="page-item" data-target="image">
+        <span class="page-number">02</span>
+        <span class="page-name">Gallery</span>
+      </div>
+      <div class="page-item" data-target="page3">
+        <span class="page-number">03</span>
+        <span class="page-name">blank</span>
+      </div>
+      <div class="page-item" data-target="page4">
+        <span class="page-number">04</span>
+        <span class="page-name">blank</span>
+      </div>
+      <div class="page-item" data-target="page5">
+        <span class="page-number">05</span>
+        <span class="page-name">blank</span>
+      </div>
     </div>
+  </aside>
+
+  <div class="now-playing" id="nowPlaying">
+    <img class="np-art" id="npArt" src="https://i.ytimg.com/vi/LBhcqYqeu0U/mqdefault.jpg" alt="Album Art">
+    <div class="np-info">
+      <div class="np-title" id="npTitle">Loading...</div>
+      <div class="np-artist" id="npArtist">—</div>
+    </div>
+    <button class="np-play" id="npPlay" aria-label="Play/Pause">
+      <svg class="icon-play" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <svg class="icon-pause" viewBox="0 0 24 24">
+        <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+      </svg>
+    </button>
   </div>
 
   <div class="part" id="about-me">
     <div class="glass">
       <div class="name-title">KhennJhay</div>
-      <h1>Hello!</h1>
       <p class="info">Digital Artist, Graphic Artist, Programmer.</p>
 
       <div class="btn-row">
@@ -694,6 +855,18 @@
     </div>
   </div>
 
+  <div class="part blank-page" id="page3">
+    <div class="blank-label">blank</div>
+  </div>
+
+  <div class="part blank-page" id="page4">
+    <div class="blank-label">blank</div>
+  </div>
+
+  <div class="part blank-page" id="page5">
+    <div class="blank-label">blank</div>
+  </div>
+
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
@@ -708,20 +881,108 @@
       });
     }
 
-    const musicToggle = document.getElementById('musicToggle');
+    // Dashboard logic
+    const settingsBtn = document.getElementById('settingsBtn');
+    const dashboard = document.getElementById('dashboard');
+    const dashboardOverlay = document.getElementById('dashboardOverlay');
+    const pageItems = document.querySelectorAll('.page-item');
+
+    function openDashboard() {
+      dashboard.classList.add('open');
+      dashboardOverlay.classList.add('open');
+      settingsBtn.classList.add('open');
+    }
+
+    function closeDashboard() {
+      dashboard.classList.remove('open');
+      dashboardOverlay.classList.remove('open');
+      settingsBtn.classList.remove('open');
+    }
+
+    settingsBtn.addEventListener('click', () => {
+      if (dashboard.classList.contains('open')) {
+        closeDashboard();
+      } else {
+        openDashboard();
+      }
+    });
+
+    dashboardOverlay.addEventListener('click', closeDashboard);
+
+    pageItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const targetId = item.getAttribute('data-target');
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          pageItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          closeDashboard();
+        }
+      });
+    });
+
+    // Update active page on scroll
+    const sections = document.querySelectorAll('.part');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const currentId = entry.target.id;
+            pageItems.forEach(item => {
+              item.classList.remove('active');
+              if (item.getAttribute('data-target') === currentId) {
+                item.classList.add('active');
+              }
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      sections.forEach(section => observer.observe(section));
+    }
+
+    // Music player
+    const songs = [
+      { id: 'LBhcqYqeu0U', title: 'Supernova', artist: 'aespa' },
+      { id: 'fyk6vjwI3wc', title: 'Rich Man', artist: 'IVE' }
+    ];
+
+    const nowPlaying = document.getElementById('nowPlaying');
+    const npArt = document.getElementById('npArt');
+    const npTitle = document.getElementById('npTitle');
+    const npArtist = document.getElementById('npArtist');
+    const npPlay = document.getElementById('npPlay');
     const loader = document.getElementById('loader');
+
     let ytPlayer;
     let musicPlaying = false;
     let userClickedEnter = false;
+    let currentSongIndex = Math.floor(Math.random() * songs.length);
 
-    const videoIds = ['LBhcqYqeu0U', 'fyk6vjwI3wc'];
-    const startVideo = videoIds[Math.floor(Math.random() * videoIds.length)];
+    function updateNowPlaying(song) {
+      npTitle.textContent = song.title;
+      npArtist.textContent = song.artist;
+      npArt.src = `https://i.ytimg.com/vi/${song.id}/mqdefault.jpg`;
+    }
+
+    function loadSong(index) {
+      currentSongIndex = index;
+      const song = songs[currentSongIndex];
+      updateNowPlaying(song);
+      if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+        ytPlayer.loadVideoById(song.id);
+      }
+    }
 
     function onYouTubeIframeAPIReady() {
+      const startSong = songs[currentSongIndex];
+      updateNowPlaying(startSong);
+
       ytPlayer = new YT.Player('ytplayer', {
         width: '500',
         height: '500',
-        videoId: startVideo,
+        videoId: startSong.id,
         playerVars: {
           autoplay: 0,
           controls: 0,
@@ -736,17 +997,31 @@
           },
           onStateChange: function(event) {
             if (event.data === YT.PlayerState.ENDED) {
-              const nextVideo = videoIds[Math.floor(Math.random() * videoIds.length)];
-              ytPlayer.loadVideoById(nextVideo);
+              let nextIndex;
+              if (songs.length > 1) {
+                do {
+                  nextIndex = Math.floor(Math.random() * songs.length);
+                } while (nextIndex === currentSongIndex);
+              } else {
+                nextIndex = 0;
+              }
+              loadSong(nextIndex);
+            }
+            if (event.data === YT.PlayerState.PLAYING) {
+              musicPlaying = true;
+              nowPlaying.classList.add('playing');
+            } else if (event.data === YT.PlayerState.PAUSED) {
+              musicPlaying = false;
+              nowPlaying.classList.remove('playing');
             }
           }
         }
       });
     }
 
-    musicToggle.addEventListener('click', () => {
+    npPlay.addEventListener('click', () => {
       musicPlaying = !musicPlaying;
-      musicToggle.classList.toggle('playing', musicPlaying);
+      nowPlaying.classList.toggle('playing', musicPlaying);
       
       if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
         if (musicPlaying) {
@@ -761,75 +1036,12 @@
       loader.classList.add('hidden');
       userClickedEnter = true;
       musicPlaying = true;
-      musicToggle.classList.add('playing');
+      nowPlaying.classList.add('playing');
       
       if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
         ytPlayer.playVideo();
       }
     });
-
-    const thumb = document.getElementById('indicatorThumb');
-    const dots = document.querySelectorAll('.indicator-dot');
-    const sections = document.querySelectorAll('.part');
-    let currentSection = 0;
-    let thumbTimeout;
-
-    function moveThumb(index) {
-      if (index === currentSection) return;
-      const step = 34;
-      const goingDown = index > currentSection;
-
-      clearTimeout(thumbTimeout);
-
-      if (goingDown) {
-        thumb.style.height = '34px';
-        thumbTimeout = setTimeout(() => {
-          thumb.style.transform = `translateY(${index * step}px)`;
-          thumb.style.height = '10px';
-        }, 180);
-      } else {
-        thumb.style.transform = `translateY(${index * step}px)`;
-        thumb.style.height = '34px';
-        thumbTimeout = setTimeout(() => {
-          thumb.style.height = '10px';
-        }, 180);
-      }
-      currentSection = index;
-    }
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const targetId = dot.getAttribute('data-target');
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-
-    if ('IntersectionObserver' in window) {
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.5
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const currentId = entry.target.id;
-            const index = Array.from(sections).findIndex(s => s.id === currentId);
-            if (index !== -1) {
-              moveThumb(index);
-            }
-          }
-        });
-      }, observerOptions);
-
-      sections.forEach(section => {
-        observer.observe(section);
-      });
-    }
   </script>
 
 </body>
