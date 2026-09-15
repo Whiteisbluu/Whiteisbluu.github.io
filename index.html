@@ -10,7 +10,8 @@
     frame-src https://www.youtube.com;
     child-src https://www.youtube.com;
     img-src 'self' data: https://i.ytimg.com;
-    style-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
   ">
 
   <title>@Whiteisbluu</title>
@@ -290,6 +291,17 @@
       display: none;
     }
 
+    .name-title {
+      font-family: 'BBH Hegarty', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      margin-bottom: 0.5rem;
+    }
+
     h1 {
       font-size: clamp(1.3rem, 2.6vw, 1.8rem);
       font-weight: 600;
@@ -485,6 +497,9 @@
       .glass {
         padding: 1.2rem 1.5rem;
       }
+      .name-title {
+        margin-bottom: 0.2rem;
+      }
       .image-title {
         margin-bottom: 0.9rem;
       }
@@ -597,6 +612,7 @@
 
   <div class="part" id="about-me">
     <div class="glass">
+      <div class="name-title">KhennJhay</div>
       <h1>Hello!</h1>
       <p class="info">Digital Artist, Graphic Artist, Programmer.</p>
 
@@ -856,5 +872,5 @@
     }
   </script>
 
-</body> 
+</body>
 </html>
