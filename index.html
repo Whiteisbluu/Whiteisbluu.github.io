@@ -1049,7 +1049,6 @@
 
     dashboardOverlay.addEventListener('click', closeDashboard);
 
-    // FIXED: Uses scrollIntoView to work reliably with CSS scroll-snap
     pageItems.forEach(item => {
       item.addEventListener('click', () => {
         const targetId = item.getAttribute('data-target');
@@ -1057,8 +1056,8 @@
         if (targetSection) {
           pageItems.forEach(i => i.classList.remove('active'));
           item.classList.add('active');
-          closeDashboard();
           targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setTimeout(closeDashboard, 150);
         }
       });
     });
