@@ -37,6 +37,7 @@
       touch-action: pan-y;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      overflow-x: hidden;
     }
 
     html::-webkit-scrollbar {
@@ -48,7 +49,6 @@
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       background-color: #000000;
       color: #ffffff;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -522,7 +522,7 @@
       justify-content: flex-start;
       padding-left: 8vw;
       scroll-snap-align: start;
-      scroll-snap-stop: always;
+      scroll-snap-stop: normal; /* Allows direct jumping to any section without being stopped at adjacent ones */
       position: relative;
     }
 
@@ -1049,6 +1049,7 @@
 
     dashboardOverlay.addEventListener('click', closeDashboard);
 
+    // FIXED: Uses scrollIntoView to work reliably with CSS scroll-snap
     pageItems.forEach(item => {
       item.addEventListener('click', () => {
         const targetId = item.getAttribute('data-target');
@@ -1056,9 +1057,8 @@
         if (targetSection) {
           pageItems.forEach(i => i.classList.remove('active'));
           item.classList.add('active');
-          const targetTop = targetSection.offsetTop;
-          window.scrollTo({ top: targetTop, behavior: 'smooth' });
-          setTimeout(closeDashboard, 300);
+          closeDashboard();
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });
