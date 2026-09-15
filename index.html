@@ -105,12 +105,17 @@
       50% { opacity: 0.25; }
     }
 
-    .music-toggle {
+    .music-controls {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      width: 52px;
-      height: 52px;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .music-toggle, .next-track-btn {
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -119,11 +124,22 @@
       backdrop-filter: blur(16px) saturate(180%);
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      z-index: 50;
+      color: #ffffff;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      cursor: pointer;
     }
 
-    .music-toggle:hover {
+    .music-toggle {
+      width: 52px;
+      height: 52px;
+    }
+
+    .next-track-btn {
+      width: 42px;
+      height: 42px;
+    }
+
+    .music-toggle:hover, .next-track-btn:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: scale(1.08);
     }
@@ -266,6 +282,7 @@
       border-radius: 100px;
       padding: 0.5rem 1.2rem;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      cursor: pointer;
     }
 
     .open-modal-btn:hover {
@@ -342,38 +359,6 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0.7;
-    }
-
-    .scroll-hint span {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-    }
-
-    .scroll-arrow {
-      width: 14px;
-      height: 14px;
-      border-right: 2px solid #ffffff;
-      border-bottom: 2px solid #ffffff;
-      transform: rotate(45deg);
-      animation: scrollBounce 1.8s ease-in-out infinite;
-    }
-
-    @keyframes scrollBounce {
-      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.3; }
-      50% { transform: rotate(45deg) translate(5px, 5px); opacity: 1; }
-    }
-
     #works {
       justify-content: center;
       padding-left: 0;
@@ -440,14 +425,21 @@
   <div class="bg-image"></div>
   <canvas id="stars"></canvas>
 
-  <button class="music-toggle" id="musicToggle" aria-label="Toggle ambient music">
-    <div class="eq-bars">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </button>
+  <div class="music-controls">
+    <button class="next-track-btn" id="nextTrackBtn" aria-label="Next track">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+        <path d="M5 4l10 8-10 8V4zm12 0v16h2V4h-2z"/>
+      </svg>
+    </button>
+    <button class="music-toggle" id="musicToggle" aria-label="Toggle ambient music">
+      <div class="eq-bars">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+  </div>
 
   <div class="scroll-container">
     <div class="part" id="about-me">
@@ -496,11 +488,6 @@
           </a>
         </div>
       </div>
-
-      <div class="scroll-hint">
-        <span>scroll</span>
-        <div class="scroll-arrow"></div>
-      </div>
     </div>
 
     <div class="part" id="works">
@@ -542,7 +529,6 @@
     const ctx = canvas.getContext('2d');
     let stars = [];
     let lastTime = 0;
-    let starColor = '255, 255, 255';
 
     function resize() {
       canvas.width = window.innerWidth;
@@ -579,28 +565,29 @@
 
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${starColor}, ${opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
       });
       requestAnimationFrame(draw);
     }
 
     const musicToggle = document.getElementById('musicToggle');
+    const nextTrackBtn = document.getElementById('nextTrackBtn');
     let ytPlayer;
     let musicPlaying = false;
-    const videoId = 'LBhcqYqeu0U';
     let userClickedEnter = false;
+    
+    const videoIds = ['LBhcqYqeu0U', 'fyk6vjwI3wc'];
+    let currentTrack = 0;
 
     function onYouTubeIframeAPIReady() {
       ytPlayer = new YT.Player('ytplayer', {
         width: '500',
         height: '500',
-        videoId: videoId,
+        videoId: videoIds[currentTrack],
         playerVars: {
           autoplay: 0,
           controls: 0,
-          loop: 1,
-          playlist: videoId,
           playsinline: 1
         },
         events: {
@@ -609,10 +596,26 @@
             if (userClickedEnter) {
               event.target.playVideo();
             }
+          },
+          onStateChange: function(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+              nextTrack();
+            }
           }
         }
       });
     }
+
+    function nextTrack() {
+      currentTrack = (currentTrack + 1) % videoIds.length;
+      if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+        ytPlayer.loadVideoById(videoIds[currentTrack]);
+        musicPlaying = true;
+        musicToggle.classList.add('playing');
+      }
+    }
+
+    nextTrackBtn.addEventListener('click', nextTrack);
 
     musicToggle.addEventListener('click', () => {
       musicPlaying = !musicPlaying;
@@ -638,44 +641,6 @@
         ytPlayer.playVideo();
       }
     });
-
-    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-    let konamiIndex = 0;
-
-    document.addEventListener('keydown', (e) => {
-      const key = e.key.toLowerCase();
-      const expectedKey = konamiCode[konamiIndex].toLowerCase();
-      
-      if (key === expectedKey) {
-        konamiIndex++;
-        if (konamiIndex === konamiCode.length) {
-          whitesecret();
-          konamiIndex = 0;
-        }
-      } else {
-        konamiIndex = 0;
-      }
-    });
-
-    function whitesecret() {
-      starColor = '0, 255, 255';
-      
-      const msg = document.createElement('div');
-      msg.textContent = '👀';
-      msg.style.cssText = `
-        position: fixed; top: 10%; left: 50%; transform: translateX(-50%);
-        color: #0ff; font-weight: bold; letter-spacing: 0.2em; z-index: 9999;
-        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-        opacity: 0; transition: opacity 0.5s; pointer-events: none;
-      `;
-      document.body.appendChild(msg);
-      
-      setTimeout(() => msg.style.opacity = '1', 10);
-      setTimeout(() => {
-        msg.style.opacity = '0';
-        setTimeout(() => msg.remove(), 500);
-      }, 2500);
-    }
 
     window.addEventListener('resize', () => {
       resize();
