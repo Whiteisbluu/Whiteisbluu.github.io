@@ -200,6 +200,13 @@
       scroll-snap-stop: always;
     }
 
+    @media (max-width: 768px) {
+      .part {
+        justify-content: center;
+        padding: 0 5vw;
+      }
+    }
+
     .glass {
       width: min(420px, 90vw);
       padding: 1.6rem 2rem;
@@ -228,8 +235,14 @@
       position: relative;
     }
 
-    .open-modal-btn {
+    .btn-row {
+      display: flex;
+      gap: 0.6rem;
       margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .open-modal-btn {
       font-family: inherit;
       font-size: 0.8rem;
       font-weight: 600;
@@ -290,15 +303,111 @@
       opacity: 0.95;
     }
 
-    p.info a {
-      color: #ffffff;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-      transition: border-color 0.2s;
+    .social-icons {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 1.2rem;
     }
 
-    p.info a:hover {
-      border-color: #ffffff;
+    .social-icons a {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .social-icons a:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.7;
+    }
+
+    .scroll-hint span {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .scroll-arrow {
+      width: 14px;
+      height: 14px;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+      animation: scrollBounce 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.3; }
+      50% { transform: rotate(45deg) translate(5px, 5px); opacity: 1; }
+    }
+
+    #works {
+      justify-content: center;
+      padding-left: 0;
+    }
+
+    .works-container {
+      width: min(640px, 92vw);
+    }
+
+    .works-title {
+      text-align: center;
+      margin-bottom: 1.6rem;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+
+    .work-card {
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background-color: rgba(255, 255, 255, 0.06);
+      background-size: cover;
+      background-position: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .work-card span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
   </style>
 </head>
@@ -331,28 +440,83 @@
     <div class="glass">
       <h1>Hello!</h1>
       <p class="info">Digital Artist, Graphic Artist, Programmer.</p>
-      <button class="open-modal-btn" onclick="document.getElementById('inline-panel').classList.toggle('open')">blank</button>
-      <div class="expand-panel" id="inline-panel">
+
+      <div class="btn-row">
+        <button class="open-modal-btn" onclick="togglePanel('about-panel', 'comms-panel')">about me</button>
+        <button class="open-modal-btn" onclick="togglePanel('comms-panel', 'about-panel')">comms</button>
+      </div>
+
+      <div class="expand-panel" id="about-panel">
         <div class="panel-content">
-          <p class="info">blank</p>
+          <p class="info">blank for now</p>
         </div>
       </div>
+
+      <div class="expand-panel" id="comms-panel">
+        <div class="panel-content">
+          <p class="info">Commissions are currently CLOSED. Due t</p>
+        </div>
+      </div>
+
+      <div class="social-icons">
+        <a href="https://www.instagram.com/khennjhay_/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Discord">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor">
+            <path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 01.078-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.893.077.077 0 00-.041.106c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Carrd">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-arrow"></div>
     </div>
   </div>
 
-  <div class="part" id="socials">
-    <div class="glass">
-      <h1>Socials</h1>
-      <p class="info">
-        <a href="https://www.instagram.com/khennjhay_/">Instagram</a><br>
-        <a href="#">Carrd</a>
-      </p>
+  <div class="part" id="img">
+    <div class="img-container">
+      <h1 class="img-title">Works</h1>
+      <div class="img-grid">
+        <div class="img-card" style="background-image: linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.08)), url('art1.jpg');">
+          <span>IMG 01</span>
+        </div>
+        <div class="img-card" style="background-image: linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.08)), url('art2.jpg');">
+          <span>IMG 02</span>
+        </div>
+        <div class="img-card" style="background-image: linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.08)), url('art3.jpg');">
+          <span>IMG 03</span>
+        </div>
+        <div class="img-card" style="background-image: linear-gradient(rgba(255,255,255,0.03), rgba(255,255,255,0.08)), url('art4.jpg');">
+          <span>IMG 04</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
+    function togglePanel(openId, closeId) {
+      document.getElementById(closeId).classList.remove('open');
+      document.getElementById(openId).classList.toggle('open');
+    }
+
     const canvas = document.getElementById('stars');
     const ctx = canvas.getContext('2d');
     let stars = [];
