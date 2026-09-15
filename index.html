@@ -299,6 +299,10 @@
       color: #E0115F;
     }
 
+    html.menu-navigating {
+      scroll-snap-type: none;
+    }
+
     .now-playing {
       position: fixed;
       bottom: 1.5rem;
@@ -1056,7 +1060,14 @@
         if (targetSection) {
           pageItems.forEach(i => i.classList.remove('active'));
           item.classList.add('active');
-          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document.documentElement.classList.add('menu-navigating');
+          window.scrollTo({
+            top: targetSection.offsetTop,
+            behavior: 'smooth'
+          });
+          setTimeout(() => {
+            document.documentElement.classList.remove('menu-navigating');
+          }, 700);
           setTimeout(closeDashboard, 150);
         }
       });
