@@ -961,6 +961,50 @@
       }
     }
 
+    .page-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      text-align: left;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.05em;
+      pointer-events: none;
+      border: none;
+      border-top: 1px solid #555555;
+      padding: 1rem 1.5rem;
+      padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+      border-radius: 0;
+    }
+
+    @media (max-width: 768px) {
+      .page-footer {
+        left: 0;
+        right: 0;
+        padding: 0.8rem 1rem;
+        padding-bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      .page-footer {
+        color: rgba(45, 43, 40, 0.5);
+        border-top-color: #cccccc;
+      }
+    }
+
+    #about-me {
+      border-bottom: 1px solid #333333;
+    }
+
+    @media (prefers-color-scheme: light) {
+      #about-me {
+        border-bottom-color: #cccccc;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
@@ -971,6 +1015,16 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+      }
+    }
+
+    .part:not(:last-child) {
+      border-bottom: 1px solid #333333;
+    }
+
+    @media (prefers-color-scheme: light) {
+      .part:not(:last-child) {
+        border-bottom-color: #cccccc;
       }
     }
   </style>
