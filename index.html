@@ -63,65 +63,95 @@
       justify-content: center;
       z-index: 2000;
       transition: opacity 0.8s ease, visibility 0.8s ease, background 0.3s ease;
-      cursor: pointer;
     }
 
     .loader.hidden {
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
     }
 
-    .loader-content {
-      text-align: center;
-      padding: 0 5vw;
+    .mac-window {
+      width: min(340px, 88vw);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #1c1c1e;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
     }
 
-    .loader-text {
-      font-size: clamp(2rem, 6vw, 3.2rem);
+    .mac-titlebar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mac-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .mac-dot.red { background: #ff5f57; }
+    .mac-dot.yellow { background: #febc2e; }
+    .mac-dot.green { background: #28c840; }
+
+    .mac-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 0.04em;
+    }
+
+    .mac-content {
+      padding: 1.8rem 1.5rem 2rem;
+      text-align: left;
+    }
+
+    .mac-text {
+      font-size: 1.15rem;
+      font-weight: 700;
       color: #ffffff;
+      margin-bottom: 1.1rem;
+      letter-spacing: 0.02em;
     }
 
-    .loader-text span {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(24px) scale(0.9);
-      animation: letterIn 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    .loader-bar {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
     }
 
-    .loader-text span:nth-child(1) { animation-delay: 0.15s; }
-    .loader-text span:nth-child(2) { animation-delay: 0.25s; }
-    .loader-text span:nth-child(3) { animation-delay: 0.35s; }
-    .loader-text span:nth-child(4) { animation-delay: 0.45s; }
-    .loader-text span:nth-child(5) { animation-delay: 0.55s; }
-    .loader-text span:nth-child(6) { animation-delay: 0.65s; }
-    .loader-text span:nth-child(7) { animation-delay: 0.75s; }
-    .loader-text span:nth-child(8) { animation-delay: 0.85s; }
+    .loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #E0115F;
+      border-radius: 999px;
+      animation: loadFill 2s linear forwards;
+    }
 
-    @keyframes letterIn {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    @keyframes loadFill {
+      to { width: 100%; }
     }
 
     .loader-subtext {
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
+      margin-top: 0.9rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      opacity: 0;
-      animation: subtextIn 1s ease 1.4s forwards, subtextBreathe 2.5s ease-in-out 2.4s infinite;
-    }
-
-    @keyframes subtextIn {
-      to { opacity: 0.6; }
-    }
-
-    @keyframes subtextBreathe {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.25; }
+      color: rgba(255, 255, 255, 0.55);
+      opacity: 1;
+      animation: none;
     }
 
     button {
@@ -752,13 +782,17 @@
       position: absolute;
       bottom: 1.5rem;
       bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-      left: 0;
-      width: 100%;
-      text-align: center;
+      left: 1.5rem;
+      right: 1.5rem;
+      width: auto;
+      text-align: left;
       font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.05em;
       pointer-events: none;
+      border: 1px solid #555555;
+      padding: 0.8rem 1.2rem;
+      border-radius: 6px;
     }
 
     @media (max-width: 900px) {
@@ -858,6 +892,8 @@
       .page-footer {
         bottom: 1rem;
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+        left: 1rem;
+        right: 1rem;
       }
     }
 
@@ -872,11 +908,21 @@
       }
     }
 
-    /* LIGHT MODE SUPPORT (EYE-FRIENDLY DIRTY WHITE) */
     @media (prefers-color-scheme: light) {
-      body, .loader { background-color: #f4f2ec; color: #2d2b28; } 
-      .loader-text { color: #2d2b28; }
-      .loader-subtext { color: #2d2b28; opacity: 0.5; }
+      body, .loader { background-color: #f4f2ec; color: #2d2b28; }
+      .mac-window {
+        background: #ffffff;
+        border-color: rgba(0, 0, 0, 0.08);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12);
+      }
+      .mac-titlebar {
+        background: rgba(0, 0, 0, 0.03);
+        border-bottom-color: rgba(0, 0, 0, 0.06);
+      }
+      .mac-title { color: rgba(45, 43, 40, 0.55); }
+      .mac-text { color: #2d2b28; }
+      .loader-bar { background: rgba(0, 0, 0, 0.08); }
+      .loader-subtext { color: rgba(45, 43, 40, 0.55); opacity: 1; }
       
       .dashboard { background: #eae8e2; border-right-color: rgba(0,0,0,0.05); }
       .dashboard-header { color: #2d2b28; }
@@ -909,7 +955,10 @@
       .image-card span { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
       
       .blank-label { color: rgba(45,43,40,0.45); }
-      .dashboard-footer, .page-footer { color: rgba(45,43,40,0.45); }
+      .dashboard-footer, .page-footer { 
+        color: rgba(45,43,40,0.5); 
+        border-color: #cccccc;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -929,11 +978,20 @@
 <body>
 
   <div class="loader" id="loader">
-    <div class="loader-content">
-      <div class="loader-text">
-        <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span><span>!</span>
+    <div class="mac-window">
+      <div class="mac-titlebar">
+        <span class="mac-dot red"></span>
+        <span class="mac-dot yellow"></span>
+        <span class="mac-dot green"></span>
+        <div class="mac-title">@Whiteisbluu</div>
       </div>
-      <div class="loader-subtext">Click to enter</div>
+      <div class="mac-content">
+        <div class="mac-text">Welcome!</div>
+        <div class="loader-bar">
+          <div class="loader-bar-fill"></div>
+        </div>
+        <div class="loader-subtext">Loading</div>
+      </div>
     </div>
   </div>
 
@@ -963,7 +1021,7 @@
       </div>
       <div class="page-item" data-target="page3">
         <span class="page-number">03</span>
-        <span class="page-name">blank</span>
+        <span class="page-name">projects</span>
       </div>
       <div class="page-item" data-target="page4">
         <span class="page-number">04</span>
@@ -1085,7 +1143,7 @@
   </div>
 
   <div class="part blank-page" id="page3">
-    <div class="blank-label">blank</div>
+    <div class="blank-label">projects</div>
   </div>
 
   <div class="part blank-page" id="page4">
@@ -1284,6 +1342,31 @@
       }
     }
 
+    function startMusicOnInteraction() {
+      if (userClickedEnter) return;
+      userClickedEnter = true;
+      musicPlaying = true;
+      nowPlaying.classList.add('playing');
+
+      if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+        ytPlayer.playVideo();
+      }
+
+      document.removeEventListener('click', startMusicOnInteraction);
+      document.removeEventListener('keydown', startMusicOnInteraction);
+      document.removeEventListener('touchstart', startMusicOnInteraction);
+      document.removeEventListener('scroll', startMusicOnInteraction);
+    }
+
+    document.addEventListener('click', startMusicOnInteraction);
+    document.addEventListener('keydown', startMusicOnInteraction);
+    document.addEventListener('touchstart', startMusicOnInteraction);
+    document.addEventListener('scroll', startMusicOnInteraction);
+
+    setTimeout(() => {
+      loader.classList.add('hidden');
+    }, 2000);
+
     function onYouTubeIframeAPIReady() {
       const startSong = songs[currentSongIndex];
       updateNowPlaying(startSong);
@@ -1344,17 +1427,6 @@
     document.addEventListener('click', (e) => {
       if (!queuePanel.contains(e.target) && !npQueue.contains(e.target)) {
         queuePanel.classList.remove('open');
-      }
-    });
-
-    loader.addEventListener('click', () => {
-      loader.classList.add('hidden');
-      userClickedEnter = true;
-      musicPlaying = true;
-      nowPlaying.classList.add('playing');
-      
-      if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
-        ytPlayer.playVideo();
       }
     });
   </script>
