@@ -872,6 +872,7 @@
       }
     }
 
+    /* LIGHT MODE SUPPORT (EYE-FRIENDLY DIRTY WHITE) */
     @media (prefers-color-scheme: light) {
       body, .loader { background-color: #f4f2ec; color: #2d2b28; } 
       .loader-text { color: #2d2b28; }
@@ -1102,7 +1103,12 @@
 
   <script>
     function changeName() {
-      document.querySelector('.name-title').textContent = 'Whiteisbluu';
+      const nameElement = document.querySelector('.name-title');
+      if (nameElement.textContent === 'KhennJhay') {
+        nameElement.textContent = 'Whiteisbluu';
+      } else {
+        nameElement.textContent = 'KhennJhay';
+      }
     }
 
     function togglePanel(targetId) {
