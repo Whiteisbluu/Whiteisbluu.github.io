@@ -1027,6 +1027,23 @@
         border-bottom-color: #cccccc;
       }
     }
+
+    .loader {
+      cursor: default;
+    }
+
+    .loader.ready {
+      cursor: pointer;
+    }
+
+    .loader-subtext {
+      opacity: 0 !important;
+      transition: opacity 0.4s ease;
+    }
+
+    .loader.ready .loader-subtext {
+      opacity: 0.7 !important;
+    }
   </style>
 </head>
 <body>
@@ -1044,7 +1061,7 @@
         <div class="loader-bar">
           <div class="loader-bar-fill"></div>
         </div>
-        <div class="loader-subtext">Loading</div>
+        <div class="loader-subtext">Click to enter</div>
       </div>
     </div>
   </div>
@@ -1396,30 +1413,26 @@
       }
     }
 
-    function startMusicOnInteraction() {
-      if (userClickedEnter) return;
+    setTimeout(() => {
+      loader.classList.add('ready');
+    }, 2000);
+
+    loader.addEventListener('click', () => {
+      if (!loader.classList.contains('ready')) return;
+
+      loader.classList.add('hidden');
       userClickedEnter = true;
       musicPlaying = true;
       nowPlaying.classList.add('playing');
 
+      if (ytPlayer && typeof ytPlayer.unMute === 'function') {
+        ytPlayer.unMute();
+      }
+
       if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
         ytPlayer.playVideo();
       }
-
-      document.removeEventListener('click', startMusicOnInteraction);
-      document.removeEventListener('keydown', startMusicOnInteraction);
-      document.removeEventListener('touchstart', startMusicOnInteraction);
-      document.removeEventListener('scroll', startMusicOnInteraction);
-    }
-
-    document.addEventListener('click', startMusicOnInteraction);
-    document.addEventListener('keydown', startMusicOnInteraction);
-    document.addEventListener('touchstart', startMusicOnInteraction);
-    document.addEventListener('scroll', startMusicOnInteraction);
-
-    setTimeout(() => {
-      loader.classList.add('hidden');
-    }, 2000);
+    });
 
     function onYouTubeIframeAPIReady() {
       const startSong = songs[currentSongIndex];
