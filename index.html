@@ -352,7 +352,7 @@
       gap: 0.5rem;
       padding: 0.4rem;
       z-index: 60;
-      transition: background 0.3s ease, border-color 0.3s ease;
+      transition: width 0.3s ease, height 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
     .np-art {
@@ -1044,6 +1044,104 @@
     .loader.ready .loader-subtext {
       opacity: 0.7 !important;
     }
+
+    .now-playing {
+      overflow: hidden;
+      transition:
+        width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.45s ease,
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .np-art {
+      transition:
+        width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.45s ease;
+    }
+
+    .np-info,
+    .np-controls {
+      transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s ease;
+    }
+
+    .now-playing.idle {
+      width: 56px !important;
+      height: 56px !important;
+      padding: 0.4rem !important;
+      border-radius: 14px;
+      cursor: pointer;
+      animation: npIdlePop 0.35s ease;
+    }
+
+    .now-playing.idle .np-info,
+    .now-playing.idle .np-controls {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateX(10px);
+    }
+
+    .now-playing.idle .np-art {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 10px;
+    }
+
+    @keyframes npIdlePop {
+      from {
+        transform: scale(0.94);
+        opacity: 0.75;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .now-playing:hover {
+        border-color: rgba(224, 17, 95, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(224, 17, 95, 0.18),
+          0 10px 30px rgba(0, 0, 0, 0.22);
+      }
+
+      .now-playing.idle:hover {
+        transform: scale(1.04);
+        border-color: rgba(224, 17, 95, 0.7);
+        box-shadow:
+          0 0 0 2px rgba(224, 17, 95, 0.22),
+          0 12px 32px rgba(0, 0, 0, 0.28);
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) and (prefers-color-scheme: light) {
+      .now-playing:hover {
+        box-shadow:
+          0 0 0 1px rgba(224, 17, 95, 0.14),
+          0 10px 26px rgba(0, 0, 0, 0.10);
+      }
+
+      .now-playing.idle:hover {
+        box-shadow:
+          0 0 0 2px rgba(224, 17, 95, 0.16),
+          0 12px 28px rgba(0, 0, 0, 0.12);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .now-playing.idle:hover {
+        transform: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1092,7 +1190,7 @@
       </div>
       <div class="page-item" data-target="page3">
         <span class="page-number">03</span>
-        <span class="page-name">projects</span>
+        <span class="page-name">Projects</span>
       </div>
       <div class="page-item" data-target="page4">
         <span class="page-number">04</span>
@@ -1214,7 +1312,7 @@
   </div>
 
   <div class="part blank-page" id="page3">
-    <div class="blank-label">projects</div>
+    <div class="blank-label">Projects</div>
   </div>
 
   <div class="part blank-page" id="page4">
@@ -1494,6 +1592,54 @@
     document.addEventListener('click', (e) => {
       if (!queuePanel.contains(e.target) && !npQueue.contains(e.target)) {
         queuePanel.classList.remove('open');
+      }
+    });
+
+    const NP_IDLE_TIME = 7000;
+    let npIdleTimer = null;
+
+    function npScheduleIdle() {
+      clearTimeout(npIdleTimer);
+
+      npIdleTimer = setTimeout(() => {
+        nowPlaying.classList.add('idle');
+      }, NP_IDLE_TIME);
+    }
+
+    function npActivatePlayer() {
+      clearTimeout(npIdleTimer);
+      nowPlaying.classList.remove('idle');
+      npScheduleIdle();
+    }
+
+    nowPlaying.classList.add('idle');
+    npScheduleIdle();
+
+    ['click', 'keydown', 'touchstart'].forEach(evt => {
+      document.addEventListener(evt, () => {
+        if (!loader.classList.contains('hidden')) return;
+        npActivatePlayer();
+      });
+    });
+
+    nowPlaying.addEventListener('click', (e) => {
+      if (!loader.classList.contains('hidden')) return;
+
+      const isControlClick = e.target.closest('.np-controls');
+
+      npActivatePlayer();
+
+      if (!isControlClick && !musicPlaying) {
+        musicPlaying = true;
+        nowPlaying.classList.add('playing');
+
+        if (ytPlayer && typeof ytPlayer.unMute === 'function') {
+          ytPlayer.unMute();
+        }
+
+        if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+          ytPlayer.playVideo();
+        }
       }
     });
   </script>
