@@ -2536,6 +2536,7 @@
 
       npIdleTimer = setTimeout(() => {
         nowPlaying.classList.add('idle');
+        queuePanel.classList.remove('open');
       }, NP_IDLE_TIME);
     }
 
@@ -2621,18 +2622,20 @@
       });
     }
 
-    const cucumberFooter = document.getElementById('cucumberFooter');
-    const catOverlay = document.getElementById('catOverlay');
+    document.addEventListener('DOMContentLoaded', () => {
+      const cucumberFooter = document.getElementById('cucumberFooter');
+      const catOverlay = document.getElementById('catOverlay');
 
-    if (cucumberFooter && catOverlay) {
-      cucumberFooter.addEventListener('click', () => {
-        catOverlay.classList.add('show');
-      });
+      if (cucumberFooter && catOverlay) {
+        cucumberFooter.addEventListener('click', () => {
+          catOverlay.classList.add('show');
+        });
 
-      catOverlay.addEventListener('click', () => {
-        catOverlay.classList.remove('show');
-      });
-    }
+        catOverlay.addEventListener('click', () => {
+          catOverlay.classList.remove('show');
+        });
+      }
+    });
   </script>
 
   <div class="cat-overlay" id="catOverlay">
