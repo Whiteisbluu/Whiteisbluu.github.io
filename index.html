@@ -2376,6 +2376,155 @@
         transform: translateX(-50%) translateY(0);
       }
     }
+
+    .sticker-list {
+      margin-left: auto;
+      margin-right: 8vw;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      width: min(560px, 42vw);
+    }
+
+    .sticker-row {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+
+    .sticker-row:hover {
+      transform: scale(1.02);
+    }
+
+    .sticker-num {
+      flex-shrink: 0;
+      width: 62px;
+      height: 62px;
+      background: #8e8e8e;
+      border-radius: 18px;
+      box-shadow: -6px 7px 0 #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #000000;
+      transition: box-shadow 0.25s ease;
+    }
+
+    .sticker-bar {
+      flex: 1;
+      min-height: 62px;
+      background: #8e8e8e;
+      border-radius: 18px;
+      box-shadow: -6px 7px 0 #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      padding: 1rem 1.6rem;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, min-height 0.25s ease;
+    }
+
+    .sticker-row:hover .sticker-num,
+    .sticker-row:hover .sticker-bar {
+      box-shadow: -8px 10px 0 #000000;
+    }
+
+    .sticker-row:hover .sticker-bar {
+      min-height: 72px;
+    }
+
+    .sticker-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #000000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0.2rem 0;
+      letter-spacing: 0.02em;
+    }
+
+    .sticker-detail {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sticker-detail-inner {
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease 0.1s;
+    }
+
+    .sticker-detail-inner p {
+      padding-top: 0.9rem;
+      padding-bottom: 0.5rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #000000;
+      white-space: normal;
+    }
+
+    .sticker-row.open .sticker-detail {
+      grid-template-rows: 1fr;
+    }
+
+    .sticker-row.open .sticker-detail-inner {
+      opacity: 1;
+    }
+
+    @media (max-width: 900px) {
+      #about-me {
+        flex-direction: column;
+        gap: 4rem;
+        padding: 5rem 5vw 4rem;
+      }
+      .sticker-list {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 480px;
+      }
+    }
+
+    .sticker-list {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin: 0;
+  transform: translate(40%, -50%);
+  width: min(560px, 42vw);
+}
+
+.sticker-row {
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sticker-row:hover,
+.sticker-row.open {
+  transform: translateX(-40%);
+}
+
+@media (max-width: 900px) {
+  .sticker-list {
+    position: static;
+    transform: translateX(30%);
+    margin: 0 auto;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .sticker-row:hover,
+  .sticker-row.open {
+    transform: translateX(-30%);
+  }
+}
+
   </style>
 </head>
 <body>
@@ -2412,7 +2561,6 @@
     <div class="sheet-handle" id="sheetHandle"></div>
     <div class="dashboard-header">Menu</div>
     <div class="dashboard-sub">@Whiteisbluu</div>
-
 
     <div class="dashboard-label">Pages</div>
     <div class="page-list" id="pageList">
@@ -2523,6 +2671,64 @@
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
           </svg>
         </a>
+      </div>
+    </div>
+
+    <div class="sticker-list">
+      <div class="sticker-row">
+        <div class="sticker-num">1</div>
+        <div class="sticker-bar">
+          <span class="sticker-text">test</span>
+          <div class="sticker-detail">
+            <div class="sticker-detail-inner">
+              <p>test</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sticker-row">
+        <div class="sticker-num">2</div>
+        <div class="sticker-bar">
+          <span class="sticker-text">test</span>
+          <div class="sticker-detail">
+            <div class="sticker-detail-inner">
+              <p>test</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sticker-row">
+        <div class="sticker-num">3</div>
+        <div class="sticker-bar">
+          <span class="sticker-text">test</span>
+          <div class="sticker-detail">
+            <div class="sticker-detail-inner">
+              <p>test</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sticker-row">
+        <div class="sticker-num">4</div>
+        <div class="sticker-bar">
+          <span class="sticker-text">test</span>
+          <div class="sticker-detail">
+            <div class="sticker-detail-inner">
+              <p>test</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sticker-row">
+        <div class="sticker-num">5</div>
+        <div class="sticker-bar">
+          <span class="sticker-text">test</span>
+          <div class="sticker-detail">
+            <div class="sticker-detail-inner">
+              <p>test</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2948,7 +3154,6 @@
     });
 
     nowPlaying.addEventListener('click', () => {
-
       if (!loader.classList.contains('hidden')) return;
       npActivatePlayer();
     });
@@ -3044,6 +3249,11 @@
       });
     }
 
+    document.querySelectorAll('.sticker-row').forEach(row => {
+      row.addEventListener('click', () => {
+        row.classList.toggle('open');
+      });
+    });
   </script>
 
   <div class="cat-overlay" id="catOverlay">
