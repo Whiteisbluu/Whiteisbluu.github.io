@@ -2378,24 +2378,27 @@
     }
 
     .sticker-list {
-      margin-left: auto;
-      margin-right: 8vw;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      margin: 0;
+      transform: translate(40%, -50%);
+      width: min(560px, 42vw);
       display: flex;
       flex-direction: column;
       gap: 2rem;
-      width: min(560px, 42vw);
+      z-index: 5;
     }
 
     .sticker-row {
       display: flex;
       align-items: center;
       gap: 1.2rem;
-      cursor: pointer;
-      transition: transform 0.25s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     .sticker-row:hover {
-      transform: scale(1.02);
+      transform: translateX(-40%);
     }
 
     .sticker-num {
@@ -2453,13 +2456,11 @@
     .sticker-detail {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sticker-detail-inner {
       overflow: hidden;
       opacity: 0;
-      transition: opacity 0.3s ease 0.1s;
     }
 
     .sticker-detail-inner p {
@@ -2471,60 +2472,27 @@
       white-space: normal;
     }
 
-    .sticker-row.open .sticker-detail {
-      grid-template-rows: 1fr;
-    }
-
-    .sticker-row.open .sticker-detail-inner {
-      opacity: 1;
-    }
-
     @media (max-width: 900px) {
       #about-me {
         flex-direction: column;
         gap: 4rem;
         padding: 5rem 5vw 4rem;
       }
+
       .sticker-list {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 480px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin: 0;
+        transform: translate(50%, -50%);
+        width: min(420px, 75vw);
+        max-width: none;
+      }
+
+      .sticker-row:hover {
+        transform: translateX(-50%);
       }
     }
-
-    .sticker-list {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  margin: 0;
-  transform: translate(40%, -50%);
-  width: min(560px, 42vw);
-}
-
-.sticker-row {
-  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.sticker-row:hover,
-.sticker-row.open {
-  transform: translateX(-40%);
-}
-
-@media (max-width: 900px) {
-  .sticker-list {
-    position: static;
-    transform: translateX(30%);
-    margin: 0 auto;
-    width: 100%;
-    max-width: 480px;
-  }
-
-  .sticker-row:hover,
-  .sticker-row.open {
-    transform: translateX(-30%);
-  }
-}
-
   </style>
 </head>
 <body>
@@ -3248,12 +3216,6 @@
         sheetCurrentY = 0;
       });
     }
-
-    document.querySelectorAll('.sticker-row').forEach(row => {
-      row.addEventListener('click', () => {
-        row.classList.toggle('open');
-      });
-    });
   </script>
 
   <div class="cat-overlay" id="catOverlay">
