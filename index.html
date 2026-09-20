@@ -20,6 +20,86 @@
 
   <title>@Whiteisbluu</title>
   <style>
+    .split-left .split-content {
+      flex: 1;
+      width: 100%;
+    }
+    .empty-state {
+      flex: 1;
+      min-height: 45vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.4rem;
+      padding: 2rem 0;
+      width: 100%;
+    }
+    .empty-icon {
+      width: clamp(96px, 20vw, 180px);
+      height: clamp(96px, 20vw, 180px);
+      color: #ffffff2e;
+    }
+    .empty-text {
+      font-size: clamp(1rem, 3.5vw, 1.5rem);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffffff66;
+      text-align: center;
+    }
+    @media (prefers-color-scheme: light) {
+      .empty-icon {
+        color: #00000024;
+      }
+      .empty-text {
+        color: #2d2b2873;
+      }
+    }
+
+
+    @media (prefers-color-scheme: light) {
+      .lyrics-tape,
+      .tape-divider .lyrics-tape {
+        border-top: 3px solid #f4f2ec !important;
+        border-bottom: 3px solid #f4f2ec !important;
+      }
+      .lyrics-tape::before,
+      .lyrics-tape::after,
+      .tape-divider .lyrics-tape::before,
+      .tape-divider .lyrics-tape::after {
+        background: repeating-linear-gradient(
+          45deg,
+          #f4f2ec 0 10px,
+          #E0115F 10px 20px
+        ) !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #page3 {
+        justify-content: center !important;
+      }
+      .split-page {
+        align-items: stretch !important;
+        flex: 0 0 auto !important;
+        min-height: 0 !important;
+      }
+      .split-left {
+        width: 100%;
+      }
+      .split-left .split-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .empty-state {
+        min-height: 0;
+        gap: 1.2rem;
+        padding: 1.5rem 0;
+      }
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -2220,7 +2300,12 @@
     }
 
     body.sheet-lock {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
+      overscroll-behavior: none;
     }
 
     .split-item:hover {
@@ -2416,6 +2501,98 @@
         box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
       }
     }
+    .page-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: calc(80px + env(safe-area-inset-top, 0px));
+      padding: 0 1.5rem;
+      padding-top: calc(16px + env(safe-area-inset-top, 0px));
+      text-align: right;
+      font-size: 0.7rem;
+      color: #ffffff66;
+      letter-spacing: 0.05em;
+      pointer-events: none;
+      border: none;
+      border-bottom: 1px solid #555555;
+      background: #000000b3;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 55;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    @media (max-width: 768px) {
+      .page-header {
+        height: calc(76px + env(safe-area-inset-top, 0px));
+        padding: 0 1rem;
+        padding-top: calc(14px + env(safe-area-inset-top, 0px));
+      }
+    }
+    @media (prefers-color-scheme: light) {
+      .page-header {
+        background: #f4f2ecb3;
+        border-bottom-color: #cccccc;
+        color: #2d2b2880;
+      }
+    }
+    .page-header {
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+    .settings-btn {
+      top: calc(16px + env(safe-area-inset-top, 0px));
+    }
+    @media (max-width: 768px) {
+      .settings-btn,
+      .settings-btn.open {
+        left: calc(1rem + env(safe-area-inset-left, 0px));
+      }
+    }
+    .theme-btn {
+      margin-top: auto;
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      background: #E0115F;
+      border: none;
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .theme-btn:hover {
+      background: #c40f52;
+    }
+    .theme-btn:active {
+      background: #a80d47;
+    }
+    .dashboard-footer {
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
+    .commissions-area {
+      overflow: visible;
+      z-index: 50;
+    }
+    .commissions-msg {
+      top: calc(100% + 8px);
+      bottom: auto;
+      left: auto;
+      right: 0;
+      transform: translateY(-4px);
+      z-index: 50;
+    }
+    .commissions-msg.show {
+      transform: translateY(0);
+    }
+
   </style>
 </head>
 <body>
@@ -2477,6 +2654,9 @@
       </div>
     </div>
 
+    <button class="theme-btn" id="themeBtn">
+      <span id="themeLabel">light mode</span>
+    </button>
     <div class="dashboard-footer" id="cucumberFooter">A cucumber keeps the cat away</div>
   </aside>
 
@@ -2519,6 +2699,7 @@
   </div>
 
   <div class="part" id="about-me">
+    <header class="page-header">@Whiteisbluu</header>
     <div class="p1-card">
 
       <div class="p1-zone p1-zone-main">
@@ -2617,14 +2798,11 @@
           Projects
         </h1>
         <div class="split-content">
-          <div class="split-item">
-            <span class="split-item-name">currently working on it</span>
-          </div>
-          <div class="split-item">
-            <span class="split-item-name">currently working on it</span>
-          </div>
-          <div class="split-item">
-            <span class="split-item-name">currently working on it</span>
+          <div class="empty-state">
+            <svg class="empty-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
+            </svg>
+            <span class="empty-text">no project yet</span>
           </div>
         </div>
       </div>
@@ -2707,18 +2885,22 @@
     const dashboardOverlay = document.getElementById('dashboardOverlay');
     const pageItems = document.querySelectorAll('.page-item');
 
+    let savedScrollY = 0;
     function openDashboard() {
+      savedScrollY = window.scrollY;
+      document.body.style.top = -savedScrollY + 'px';
       dashboard.classList.add('open');
       dashboardOverlay.classList.add('open');
       settingsBtn.classList.add('open');
       document.body.classList.add('sheet-lock');
     }
-
     function closeDashboard() {
       dashboard.classList.remove('open');
       dashboardOverlay.classList.remove('open');
       settingsBtn.classList.remove('open');
       document.body.classList.remove('sheet-lock');
+      document.body.style.top = '';
+      window.scrollTo({ top: savedScrollY, behavior: 'instant' });
     }
 
     settingsBtn.addEventListener('click', (e) => {
@@ -2732,6 +2914,17 @@
 
     dashboardOverlay.addEventListener('click', closeDashboard);
 
+    document.addEventListener('touchmove', (e) => {
+      if (!dashboard.classList.contains('open')) return;
+      if (dashboard.contains(e.target)) return;
+      e.preventDefault();
+    }, { passive: false });
+    document.addEventListener('wheel', (e) => {
+      if (!dashboard.classList.contains('open')) return;
+      if (dashboard.contains(e.target)) return;
+      e.preventDefault();
+    }, { passive: false });
+
     pageItems.forEach(item => {
       item.addEventListener('click', () => {
         const targetId = item.getAttribute('data-target');
@@ -2740,14 +2933,16 @@
           pageItems.forEach(i => i.classList.remove('active'));
           item.classList.add('active');
           document.documentElement.classList.add('menu-navigating');
-          window.scrollTo({
-            top: targetSection.offsetTop,
-            behavior: 'smooth'
-          });
+          closeDashboard();
+          setTimeout(() => {
+            window.scrollTo({
+              top: targetSection.offsetTop,
+              behavior: 'smooth'
+            });
+          }, 60);
           setTimeout(() => {
             document.documentElement.classList.remove('menu-navigating');
-          }, 700);
-          setTimeout(closeDashboard, 150);
+          }, 900);
         }
       });
     });
@@ -2769,6 +2964,22 @@
       }, { threshold: 0.5 });
 
       sections.forEach(section => observer.observe(section));
+
+      let lastScrollY = window.scrollY;
+      const isMobile = window.matchMedia('(max-width: 768px)');
+      function handleScroll() {
+        if (!isMobile.matches) return;
+        if (!dashboard.classList.contains('open')) return;
+        const currentScrollY = window.scrollY;
+        if (currentScrollY < lastScrollY && currentScrollY > 10) {
+          closeDashboard();
+        }
+        lastScrollY = currentScrollY;
+      }
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      isMobile.addEventListener('change', () => {
+        lastScrollY = window.scrollY;
+      });
     }
 
     const songs = [
@@ -3059,36 +3270,83 @@
     }
 
     const sheetHandle = document.getElementById('sheetHandle');
-
-    if (sheetHandle) {
+    if (sheetHandle && dashboard) {
       let sheetStartY = 0;
       let sheetCurrentY = 0;
       let sheetDragging = false;
-
-      sheetHandle.addEventListener('touchstart', (e) => {
+      const dragStart = (clientY) => {
+        if (window.innerWidth > 768) return;
         sheetDragging = true;
-        sheetStartY = e.touches[0].clientY;
+        sheetStartY = clientY;
         sheetCurrentY = 0;
         dashboard.style.transition = 'none';
-      }, { passive: true });
-
-      sheetHandle.addEventListener('touchmove', (e) => {
+      };
+      const dragMove = (clientY) => {
         if (!sheetDragging) return;
-        sheetCurrentY = Math.max(0, e.touches[0].clientY - sheetStartY);
+        sheetCurrentY = Math.max(0, clientY - sheetStartY);
         dashboard.style.transform = 'translateY(' + sheetCurrentY + 'px)';
-      }, { passive: true });
-
-      sheetHandle.addEventListener('touchend', () => {
+      };
+      const dragEnd = () => {
         if (!sheetDragging) return;
         sheetDragging = false;
         dashboard.style.transition = '';
         dashboard.style.transform = '';
-
-        if (sheetCurrentY > 120) {
+        if (sheetCurrentY > 100) {
           closeDashboard();
         }
-
         sheetCurrentY = 0;
+      };
+      sheetHandle.addEventListener('touchstart', (e) => {
+        dragStart(e.touches[0].clientY);
+      }, { passive: true });
+      sheetHandle.addEventListener('touchmove', (e) => {
+        dragMove(e.touches[0].clientY);
+      }, { passive: true });
+      sheetHandle.addEventListener('touchend', dragEnd);
+      dashboard.addEventListener('touchstart', (e) => {
+        if (e.target === dashboard || e.target.closest('.dashboard-header') || e.target.closest('.dashboard-sub')) {
+          dragStart(e.touches[0].clientY);
+        }
+      }, { passive: true });
+      dashboard.addEventListener('touchmove', (e) => {
+        dragMove(e.touches[0].clientY);
+      }, { passive: true });
+      dashboard.addEventListener('touchend', dragEnd);
+    }
+    const themeBtn = document.getElementById('themeBtn');
+    const themeLabel = document.getElementById('themeLabel');
+    const lightRules = [];
+    for (const sheet of document.styleSheets) {
+      try {
+        for (const rule of sheet.cssRules) {
+          if (rule.media && rule.media.mediaText.indexOf('prefers-color-scheme: light') !== -1) {
+            lightRules.push({ rule: rule, orig: rule.media.mediaText });
+          }
+        }
+      } catch (e) {}
+    }
+    let currentMode = 'auto';
+    function themeIsLight() {
+      if (currentMode === 'light') return true;
+      if (currentMode === 'dark') return false;
+      return window.matchMedia('(prefers-color-scheme: light)').matches;
+    }
+    function applyTheme(mode) {
+      currentMode = mode;
+      lightRules.forEach(entry => {
+        if (mode === 'light') entry.rule.media.mediaText = 'all';
+        else if (mode === 'dark') entry.rule.media.mediaText = 'not all';
+        else entry.rule.media.mediaText = entry.orig;
+      });
+      if (themeLabel) themeLabel.textContent = themeIsLight() ? 'dark mode' : 'light mode';
+      try { localStorage.setItem('theme', mode); } catch (e) {}
+    }
+    let savedTheme = 'light';
+    try { savedTheme = localStorage.getItem('theme') || 'light'; } catch (e) {}
+    applyTheme(savedTheme);
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        applyTheme(themeIsLight() ? 'dark' : 'light');
       });
     }
   </script>
