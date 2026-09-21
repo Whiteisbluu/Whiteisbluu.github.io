@@ -35,12 +35,10 @@
       -webkit-overflow-scrolling: touch;
       touch-action: pan-y !important;
       scrollbar-width: none;
-      -ms-overflow-style: none;
       overflow-x: hidden !important;
       max-width: 100% !important;
       width: 100% !important;
       overscroll-behavior-x: none !important;
-      overscroll-behavior-y: none;
     }
 
     html::-webkit-scrollbar {
@@ -62,10 +60,9 @@
 
     body.sheet-lock {
       position: fixed;
-      inset: 0;
+      left: 0;
+      right: 0;
       width: 100%;
-      height: 100%;
-      overflow: hidden;
       overscroll-behavior: none;
     }
 
@@ -77,7 +74,7 @@
       align-items: center;
       justify-content: center;
       z-index: 2000;
-      transition: opacity 0.8s ease, visibility 0.8s ease, background 0.3s ease;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
       cursor: default;
     }
 
@@ -125,7 +122,7 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 0.75rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       font-weight: 600;
       color: #ffffff8c;
       letter-spacing: 0.04em;
@@ -137,7 +134,7 @@
     }
 
     .mac-text {
-      font-size: 1.15rem;
+      font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1.1rem);
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 1.1rem;
@@ -166,7 +163,7 @@
 
     .loader-subtext {
       margin-top: 0.9rem;
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #ffffff8c;
@@ -190,7 +187,7 @@
 
     .settings-btn {
       position: fixed;
-      top: calc(1.5rem + env(safe-area-inset-top, 0px));
+      top: calc(16px + env(safe-area-inset-top, 0px));
       left: calc(1.5rem + env(safe-area-inset-left, 0px));
       width: 48px;
       height: 48px;
@@ -205,7 +202,6 @@
       cursor: pointer;
       flex-direction: column;
       gap: 4px;
-      padding: 0;
     }
 
     .settings-btn:hover {
@@ -237,7 +233,6 @@
     .dashboard-overlay {
       position: fixed;
       inset: 0;
-      height: auto !important;
       background: #00000080;
       z-index: 65;
       opacity: 0;
@@ -255,14 +250,13 @@
       top: 0;
       bottom: 0;
       left: 0;
-      height: auto !important;
       width: 300px;
       max-width: 85vw;
       background: #121212;
       border-right: 1px solid #ffffff14;
       z-index: 66;
       transform: translateX(-100%);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       padding: 2rem 1.5rem;
       padding-top: calc(2rem + env(safe-area-inset-top, 0px));
       padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
@@ -284,14 +278,14 @@
 
     .dashboard-header {
       font-family: 'Black Han Sans', 'Segoe UI', sans-serif;
-      font-size: 1.4rem;
+      font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
       color: #ffffff;
       margin-bottom: 0.3rem;
       letter-spacing: 0.02em;
     }
 
     .dashboard-sub {
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #ffffff66;
@@ -299,7 +293,7 @@
     }
 
     .dashboard-label {
-      font-size: 0.65rem;
+      font-size: clamp(0.6rem, 0.58rem + 0.15vw, 0.7rem);
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #ffffff66;
@@ -322,7 +316,7 @@
       cursor: pointer;
       transition: all 0.25s ease;
       color: #ffffffb3;
-      font-size: 0.9rem;
+      font-size: clamp(0.85rem, 0.82rem + 0.3vw, 1rem);
       font-weight: 500;
       position: relative;
     }
@@ -350,7 +344,7 @@
     }
 
     .page-number {
-      font-size: 0.75rem;
+      font-size: clamp(0.7rem, 0.68rem + 0.2vw, 0.85rem);
       font-weight: 600;
       color: #ffffff66;
       width: 20px;
@@ -359,10 +353,6 @@
 
     .page-item.active .page-number {
       color: #E0115F;
-    }
-
-    html.menu-navigating {
-      scroll-snap-type: none;
     }
 
     .now-playing {
@@ -381,13 +371,12 @@
       z-index: 60;
       overflow: hidden;
       transition:
-        width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-        height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-        border-radius 0.45s ease,
+        width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.35s ease,
         transform 0.3s ease,
         border-color 0.3s ease,
-        box-shadow 0.3s ease,
-        background 0.3s ease;
+        box-shadow 0.3s ease;
     }
 
     .np-art {
@@ -399,15 +388,14 @@
       background: #2a2a2a;
       display: block;
       transition:
-        width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-        height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-        border-radius 0.45s ease;
+        width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        border-radius 0.35s ease;
     }
 
     .np-info {
       flex: 1 1 auto !important;
       min-width: 0 !important;
-      width: auto !important;
       max-width: calc(100% - 160px) !important;
       overflow: hidden !important;
       transition:
@@ -417,7 +405,7 @@
     }
 
     .np-title {
-      font-size: 0.78rem;
+      font-size: clamp(0.7rem, 0.66rem + 0.3vw, 0.85rem);
       font-weight: 600;
       color: #E0115F;
       white-space: nowrap;
@@ -425,11 +413,10 @@
       text-overflow: ellipsis;
       line-height: 1.2;
       min-width: 0;
-      max-width: 100% !important;
     }
 
     .np-artist {
-      font-size: 0.68rem;
+      font-size: clamp(0.6rem, 0.57rem + 0.2vw, 0.7rem);
       color: #E0115Fb3;
       white-space: nowrap;
       overflow: hidden;
@@ -437,7 +424,6 @@
       margin-top: 2px;
       line-height: 1.2;
       min-width: 0;
-      max-width: 100% !important;
     }
 
     .np-controls {
@@ -488,7 +474,6 @@
       padding: 0.4rem !important;
       border-radius: 14px;
       cursor: pointer;
-      animation: npIdlePop 0.35s ease;
     }
 
     .now-playing.idle .np-info,
@@ -505,17 +490,6 @@
       border-radius: 10px;
     }
 
-    @keyframes npIdlePop {
-      from {
-        transform: scale(0.94);
-        opacity: 0.75;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
     .queue-panel {
       position: fixed;
       bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
@@ -529,7 +503,7 @@
       opacity: 0;
       visibility: hidden;
       transform: translateY(10px);
-      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, background 0.3s ease, border-color 0.3s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
       overflow: hidden;
     }
 
@@ -542,7 +516,7 @@
     .queue-header {
       padding: 0.8rem 1rem;
       border-bottom: 1px solid #ffffff14;
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -592,7 +566,7 @@
     }
 
     .queue-item-title {
-      font-size: 0.8rem;
+      font-size: clamp(0.75rem, 0.72rem + 0.25vw, 0.85rem);
       font-weight: 600;
       color: #ffffff;
       white-space: nowrap;
@@ -602,7 +576,7 @@
     }
 
     .queue-item-artist {
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       color: #ffffff80;
       white-space: nowrap;
       overflow: hidden;
@@ -616,7 +590,7 @@
     }
 
     .queue-item-index {
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       color: #ffffff4d;
       width: 18px;
       text-align: center;
@@ -645,8 +619,6 @@
       align-items: center;
       justify-content: flex-start;
       padding-left: 8vw;
-      scroll-snap-align: none !important;
-      scroll-snap-stop: normal !important;
       position: relative;
     }
 
@@ -680,7 +652,7 @@
 
     .open-modal-btn {
       font-family: inherit;
-      font-size: 0.8rem;
+      font-size: clamp(0.75rem, 0.72rem + 0.25vw, 0.9rem);
       font-weight: 600;
       letter-spacing: 0.03em;
       color: #ffffff;
@@ -730,7 +702,7 @@
     }
 
     p.info {
-      font-size: 0.9rem;
+      font-size: clamp(0.85rem, 0.8rem + 0.4vw, 1rem);
       font-weight: 400;
       line-height: 1.5;
       color: #ffffff;
@@ -779,17 +751,15 @@
       padding: 0 1.5rem;
       padding-top: env(safe-area-inset-top, 0px);
       text-align: right;
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       color: #ffffff66;
       letter-spacing: 0.05em;
       pointer-events: none;
-      border: none;
       border-bottom: 1px solid #555555;
       background: #000000b3;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       z-index: 55;
-      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     .p1-card {
@@ -798,25 +768,17 @@
       max-height: 84dvh;
       overflow-y: auto;
       scrollbar-width: none;
-      -ms-overflow-style: none;
       background: #ffffff08;
       border: 1px solid #ffffff1a;
       border-radius: 28px;
       padding: 1.6rem 2rem;
       display: flex;
       flex-direction: column;
-      gap: 0;
       box-shadow: 0 18px 50px #00000059;
-      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     .p1-card::-webkit-scrollbar {
       display: none;
-    }
-
-    .p1-zone-main .name-title {
-      margin: -0.3rem 0 0.5rem;
-      width: 100%;
     }
 
     .p1-zone-actions {
@@ -899,7 +861,7 @@
     }
 
     .image-card span {
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 0.7rem + 0.3vw, 0.9rem);
       font-weight: 600;
       letter-spacing: 0.04em;
       text-shadow: 0 2px 4px #00000080;
@@ -944,7 +906,7 @@
       color: #ffffff;
       padding: 0.5rem 1.2rem;
       border-radius: 10px;
-      font-size: 0.8rem;
+      font-size: clamp(0.7rem, 0.65rem + 0.3vw, 0.85rem);
       font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif;
       font-weight: 600;
       letter-spacing: 0.03em;
@@ -955,7 +917,6 @@
       z-index: 10;
       white-space: nowrap;
       box-shadow: 0 4px 16px #E0115F66;
-      border: none;
     }
 
     .tape-divider:hover::after {
@@ -974,7 +935,6 @@
       background: linear-gradient(180deg, #ff2e76 0%, #E0115F 55%, #b80e4e 100%);
       border-top: 3px solid #101010;
       border-bottom: 3px solid #101010;
-      box-shadow: none !important;
       color: #ffffff;
       z-index: 2;
     }
@@ -1010,10 +970,6 @@
       will-change: transform;
     }
 
-    .lyrics-tape:hover .tape-track {
-      animation-play-state: running !important;
-    }
-
     .tape-seq {
       display: flex;
       align-items: center;
@@ -1021,10 +977,9 @@
       white-space: nowrap;
       font-family: 'Noto Sans KR' !important;
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: clamp(0.85rem, 0.75rem + 0.6vw, 1.2rem);
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      text-shadow: none !important;
       flex-shrink: 0;
     }
 
@@ -1134,7 +1089,7 @@
 
     .commissions-btn {
       font-family: 'Noto Sans JP', 'Noto Sans KR', sans-serif;
-      font-size: 0.75rem;
+      font-size: clamp(0.68rem, 0.64rem + 0.3vw, 0.8rem);
       font-weight: 600;
       letter-spacing: 0.03em;
       color: #ffffff;
@@ -1143,16 +1098,12 @@
       border-radius: 10px;
       padding: 0.45rem 1.1rem;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease;
       white-space: nowrap;
     }
 
     .commissions-btn:hover {
       background: #c40f52;
-    }
-
-    .commissions-btn:active {
-      transform: scale(0.97);
     }
 
     .commissions-msg {
@@ -1164,7 +1115,7 @@
       transform: translateY(-4px);
       background: #000000e6;
       color: #ffffff;
-      font-size: 0.72rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       font-weight: 500;
       letter-spacing: 0.05em;
       padding: 0.4rem 0.9rem;
@@ -1219,7 +1170,7 @@
     }
 
     .art-name {
-      font-size: 0.78rem;
+      font-size: clamp(0.7rem, 0.65rem + 0.3vw, 0.85rem);
       font-weight: 500;
       color: #ffffff99;
       text-align: center;
@@ -1232,11 +1183,10 @@
       right: 0;
       width: 100%;
       text-align: left;
-      font-size: 0.7rem;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
       color: #ffffff66;
       letter-spacing: 0.05em;
       pointer-events: none;
-      border: none;
       border-top: 1px solid #555555;
       padding: 1rem 1.5rem;
       padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
@@ -1250,7 +1200,7 @@
     .dashboard-footer {
       margin-top: 1rem;
       padding-top: 1rem;
-      font-size: 0.75rem;
+      font-size: clamp(0.7rem, 0.68rem + 0.2vw, 0.8rem);
       color: #ffffff4d;
       text-align: center;
       letter-spacing: 0.05em;
@@ -1267,7 +1217,7 @@
       margin-top: auto;
       width: 100%;
       font-family: inherit;
-      font-size: 0.8rem;
+      font-size: clamp(0.75rem, 0.72rem + 0.25vw, 0.9rem);
       font-weight: 600;
       letter-spacing: 0.03em;
       color: #ffffff;
@@ -1318,20 +1268,21 @@
       display: none;
     }
 
+    html.theme-switch *,
+    html.theme-switch *::before,
+    html.theme-switch *::after {
+      transition: none !important;
+    }
+
     @media (hover: hover) and (pointer: fine) {
       .now-playing:hover {
         border-color: #E0115F73;
-        box-shadow:
-          0 0 0 1px #E0115F2e,
-          0 10px 30px #00000038;
+        box-shadow: 0 0 0 1px #E0115F2e, 0 10px 30px #00000038;
       }
-
       .now-playing.idle:hover {
         transform: scale(1.04);
         border-color: #E0115Fb3;
-        box-shadow:
-          0 0 0 2px #E0115F38,
-          0 12px 32px #00000047;
+        box-shadow: 0 0 0 2px #E0115F38, 0 12px 32px #00000047;
       }
     }
 
@@ -1345,10 +1296,6 @@
         border-color: #ffffff66;
       }
       .now-playing.idle:hover {
-        transform: none;
-      }
-      .art-card:hover,
-      .image-card:hover {
         transform: none;
       }
     }
@@ -1376,9 +1323,6 @@
       }
       .settings-btn .bar {
         width: 18px;
-      }
-      .settings-btn.open {
-        left: calc(1.5rem + env(safe-area-inset-left, 0px));
       }
       .settings-btn,
       .settings-btn.open {
@@ -1462,7 +1406,7 @@
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        min-height: 100dvh !important;
+        min-height: 100svh !important;
         padding-top: calc(5rem + env(safe-area-inset-top)) !important;
       }
       .split-tabs {
@@ -1493,9 +1437,6 @@
         flex: 0 0 120px;
         border-radius: 9px;
         cursor: pointer;
-        transition: none;
-        transform: none !important;
-        box-shadow: none !important;
         white-space: nowrap;
         display: inline-flex;
         align-items: center;
@@ -1503,21 +1444,23 @@
       }
       .split-tab.active { background: #E0115F; color: #ffffff; }
       .split-divider { display: none; }
-      .split-page.show-arts .split-left { display: none; }
-      .split-page:not(.show-arts) .split-right { display: none; }
       .split-col { padding: 0 0.5rem; }
       .split-page {
         width: 100% !important;
         min-height: 0 !important;
         height: auto !important;
         flex: 0 0 auto !important;
-        align-items: stretch !important;
-        flex-direction: column;
-        gap: 2rem;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
       }
-      .split-left {
-        flex: 1;
-        width: 100%;
+      .split-page > .split-col {
+        grid-area: 1 / 1;
+      }
+      .split-page.show-arts .split-left {
+        visibility: hidden;
+      }
+      .split-page:not(.show-arts) .split-right {
+        visibility: hidden;
       }
       .split-left .split-content {
         display: flex;
@@ -1662,15 +1605,8 @@
 
     @media (prefers-color-scheme: light) {
       body, .loader { background-color: #f4f2ec; color: #2d2b28; }
-      .mac-window {
-        background: #ffffff;
-        border-color: #00000014;
-        box-shadow: 0 24px 70px #0000001f;
-      }
-      .mac-titlebar {
-        background: #00000008;
-        border-bottom-color: #0000000f;
-      }
+      .mac-window { background: #ffffff; border-color: #00000014; box-shadow: 0 24px 70px #0000001f; }
+      .mac-titlebar { background: #00000008; border-bottom-color: #0000000f; }
       .mac-title { color: #2d2b288c; }
       .mac-text { color: #2d2b28; }
       .loader-bar { background: #00000014; }
@@ -1698,10 +1634,7 @@
       .image-card { border-color: #00000014; }
       .image-card:hover { border-color: #00000033; }
       .blank-label { color: #2d2b2873; }
-      .dashboard-footer, .page-footer {
-        color: #2d2b2880;
-        border-top-color: #cccccc;
-      }
+      .dashboard-footer, .page-footer { color: #2d2b2880; border-top-color: #cccccc; }
       .dashboard-footer:hover { color: #2d2b28cc; }
       .part:not(:last-child) { border-bottom-color: #cccccc; }
       .split-title { color: #1a1a1a; }
@@ -1787,26 +1720,26 @@
     <div class="dashboard-sub">@Whiteisbluu</div>
 
     <div class="dashboard-label">Pages</div>
-    <div class="page-list" id="pageList">
+    <div class="page-list">
       <div class="page-item active" data-target="about-me">
         <span class="page-number">01</span>
-        <span class="page-name">About</span>
+        <span>About</span>
       </div>
       <div class="page-item" data-target="image">
         <span class="page-number">02</span>
-        <span class="page-name">Gallery</span>
+        <span>Gallery</span>
       </div>
       <div class="page-item" data-target="page3">
         <span class="page-number">03</span>
-        <span class="page-name">Projects</span>
+        <span>Projects</span>
       </div>
       <div class="page-item" data-target="page4">
         <span class="page-number">04</span>
-        <span class="page-name">blank</span>
+        <span>blank</span>
       </div>
       <div class="page-item" data-target="page5">
         <span class="page-number">05</span>
-        <span class="page-name">blank</span>
+        <span>blank</span>
       </div>
     </div>
 
@@ -1856,9 +1789,7 @@
 
   <div class="part" id="about-me">
     <div class="p1-card">
-      <div class="p1-zone-main">
-        <div class="name-title" onclick="changeName()">KhennJhay</div>
-      </div>
+      <div class="name-title" onclick="changeName()">KhennJhay</div>
       <p class="info">Digital Artist, Graphic Artist, Programmer.</p>
       <div class="p1-zone-actions">
         <button class="open-modal-btn" onclick="togglePanel('about-panel')">about me</button>
@@ -2070,7 +2001,6 @@
         if (targetSection) {
           pageItems.forEach(i => i.classList.remove('active'));
           item.classList.add('active');
-          document.documentElement.classList.add('menu-navigating');
           closeDashboard();
           setTimeout(() => {
             window.scrollTo({
@@ -2078,9 +2008,6 @@
               behavior: 'smooth'
             });
           }, 60);
-          setTimeout(() => {
-            document.documentElement.classList.remove('menu-navigating');
-          }, 900);
         }
       });
     });
@@ -2471,6 +2398,7 @@
 
     function applyTheme(mode) {
       currentMode = mode;
+      document.documentElement.classList.add('theme-switch');
       lightRules.forEach(entry => {
         if (mode === 'light') entry.rule.media.mediaText = 'all';
         else if (mode === 'dark') entry.rule.media.mediaText = 'not all';
@@ -2478,6 +2406,11 @@
       });
       if (themeLabel) themeLabel.textContent = themeIsLight() ? 'dark mode' : 'light mode';
       try { localStorage.setItem('theme', mode); } catch (e) {}
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.documentElement.classList.remove('theme-switch');
+        });
+      });
     }
 
     let savedTheme = 'light';
