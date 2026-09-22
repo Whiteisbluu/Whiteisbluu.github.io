@@ -372,7 +372,9 @@
       right: calc(1.5rem + env(safe-area-inset-right, 0px));
       width: min(360px, calc(100vw - 2rem));
       height: 56px;
-      background: #1e1e1e;
+      background: #1e1e1ecc;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid #ffffff14;
       border-radius: 12px;
       display: flex;
@@ -507,7 +509,9 @@
       right: calc(1.5rem + env(safe-area-inset-right, 0px));
       width: 280px;
       max-height: 300px;
-      background: #1e1e1e;
+      background: #1e1e1ecc;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid #ffffff14;
       border-radius: 12px;
       z-index: 61;
@@ -648,6 +652,8 @@
       margin-bottom: 0.5rem;
       cursor: pointer;
       transition: color 0.2s ease;
+      width: 100%;
+      text-align: center;
     }
 
     .name-title:hover {
@@ -1630,7 +1636,7 @@
       .page-item:hover { background: #0000000a; color: #1a1815; }
       .page-item.active { background: #0000000f; color: #1a1815; }
       .page-number { color: #2d2b2873; }
-      .now-playing, .queue-panel { background: #fdfcfa; border-color: #0000000f; box-shadow: 0 4px 16px #0000000a; }
+      .now-playing, .queue-panel { background: #fdfcfacc; border-color: #0000000f; box-shadow: 0 4px 16px #0000000a; }
       .np-art, .queue-item-art { background: #e6e4de; }
       .np-artist { color: #2d2b28a6; }
       .np-btn svg { fill: #2d2b28; }
