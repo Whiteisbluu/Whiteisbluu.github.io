@@ -507,8 +507,8 @@
       position: fixed;
       bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
       right: calc(1.5rem + env(safe-area-inset-right, 0px));
-      width: 280px;
-      max-height: 300px;
+      width: 240px;
+      max-height: 260px;
       background: #1e1e1ecc;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -539,7 +539,7 @@
     }
 
     .queue-list {
-      max-height: 240px;
+      max-height: 200px;
       overflow-y: auto;
       scrollbar-width: none;
     }
@@ -566,8 +566,8 @@
     }
 
     .queue-item-art {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 6px;
       object-fit: cover;
       flex-shrink: 0;
@@ -581,7 +581,7 @@
     }
 
     .queue-item-title {
-      font-size: clamp(0.75rem, 0.72rem + 0.25vw, 0.85rem);
+      font-size: clamp(0.7rem, 0.68rem + 0.2vw, 0.8rem);
       font-weight: 600;
       color: #ffffff;
       white-space: nowrap;
@@ -591,7 +591,7 @@
     }
 
     .queue-item-artist {
-      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
+      font-size: clamp(0.6rem, 0.58rem + 0.15vw, 0.7rem);
       color: #ffffff80;
       white-space: nowrap;
       overflow: hidden;
@@ -614,6 +614,76 @@
 
     .queue-item.active .queue-item-index {
       color: #E0115F;
+    }
+
+    .vinyl-panel {
+      position: fixed;
+      bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+      right: calc(1.5rem + env(safe-area-inset-right, 0px) + 252px);
+      width: 240px;
+      height: 260px;
+      max-height: 260px;
+      background: #1e1e1ecc;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid #ffffff14;
+      border-radius: 12px;
+      z-index: 61;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .vinyl-panel.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .vinyl {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background-color: #181818;
+      border: 2px solid #2a2a2a;
+      position: relative;
+      transform-origin: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .vinyl.playing {
+      animation: vinylSpin 4s linear infinite;
+    }
+
+    @keyframes vinylSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #E0115F;
+      overflow: hidden;
+      border: 3px solid #181818;
+    }
+
+    .vinyl-label img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     #ytplayer {
@@ -1123,30 +1193,157 @@
       background: #c40f52;
     }
 
-    .commissions-msg {
-      position: absolute;
-      top: calc(100% + 8px);
-      bottom: auto;
-      left: auto;
-      right: 0;
-      transform: translateY(-4px);
-      background: #000000e6;
-      color: #ffffff;
-      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      padding: 0.4rem 0.9rem;
-      border-radius: 8px;
-      white-space: nowrap;
+    .comms-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      z-index: 50;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      padding: 2rem;
     }
 
-    .commissions-msg.show {
+    .comms-modal-overlay.open {
       opacity: 1;
-      transform: translateY(0);
+      visibility: visible;
+    }
+
+    .comms-modal {
+      width: min(520px, 100%);
+      max-height: 85vh;
+      background: #161616;
+      border: 1px solid #ffffff1a;
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      overflow-y: auto;
+      scrollbar-width: none;
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
+
+    .comms-modal::-webkit-scrollbar {
+      display: none;
+    }
+
+    .comms-modal-overlay.open .comms-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .comms-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #ffffff14;
+      color: #ffffff;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .comms-close:hover {
+      background: #E0115F;
+      transform: rotate(90deg);
+    }
+
+    .comms-title {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 2rem;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .comms-status {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-open {
+      background: #28c84026;
+      color: #28c840;
+      border: 1px solid #28c8404d;
+    }
+
+    .status-closed {
+      background: #ff5f5726;
+      color: #ff5f57;
+      border: 1px solid #ff5f574d;
+    }
+
+    .comms-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .comms-section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #E0115F;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .comms-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .comms-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #ffffff0f;
+      font-size: 0.9rem;
+      color: #ffffffcc;
+    }
+
+    .comms-list li:last-child {
+      border-bottom: none;
+    }
+
+    .tos-list li {
+      display: block;
+      padding: 0.4rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .tos-list li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: #E0115F;
+      font-size: 0.6rem;
+      top: 0.65rem;
+    }
+
+    .comms-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #ffffffb3;
     }
 
     .arts-grid {
@@ -1350,12 +1547,15 @@
         padding: 0 1rem;
       }
       .now-playing, .queue-panel {
-        width: 260px;
+        width: 220px;
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
         right: calc(1rem + env(safe-area-inset-right, 0px));
       }
       .queue-panel {
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 64px);
+      }
+      .vinyl-panel {
+        display: none;
       }
       .np-art {
         width: 40px;
@@ -1512,12 +1712,6 @@
         font-size: 0.7rem;
         padding: 0.45rem 0.9rem;
       }
-      .commissions-msg {
-        white-space: normal;
-        text-align: center;
-        line-height: 1.4;
-        max-width: min(220px, calc(100vw - 2rem));
-      }
       .empty-state {
         min-height: 0;
         gap: 1.2rem;
@@ -1525,6 +1719,13 @@
       }
       .arts-grid {
         gap: 0.8rem;
+      }
+      .comms-modal {
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+      }
+      .comms-title {
+        font-size: 1.6rem;
       }
     }
 
@@ -1557,7 +1758,7 @@
         gap: 0.1rem;
       }
       .queue-panel {
-        width: min(250px, calc(100vw - 2rem));
+        width: min(220px, calc(100vw - 2rem));
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 86px) !important;
       }
     }
@@ -1571,7 +1772,7 @@
         gap: 0.5rem;
       }
       .now-playing, .queue-panel {
-        width: 240px;
+        width: 200px;
       }
       .np-art {
         width: 40px;
@@ -1637,6 +1838,7 @@
       .page-item.active { background: #0000000f; color: #1a1815; }
       .page-number { color: #2d2b2873; }
       .now-playing, .queue-panel { background: #fdfcfacc; border-color: #0000000f; box-shadow: 0 4px 16px #0000000a; }
+      .vinyl-panel { background: #fdfcfacc; border-color: #0000000f; box-shadow: 0 4px 16px #0000000a; }
       .np-art, .queue-item-art { background: #e6e4de; }
       .np-artist { color: #2d2b28a6; }
       .np-btn svg { fill: #2d2b28; }
@@ -1645,6 +1847,8 @@
       .queue-item-title { color: #2d2b28; }
       .queue-item-artist { color: #2d2b288c; }
       .queue-item-index { color: #2d2b2859; }
+      .vinyl { background-color: #222222; border-color: #333333; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+      .vinyl-label { border-color: #222222; }
       .name-title { color: #2d2b28; }
       p.info { color: #3b3935; }
       .expand-panel.open { border-top-color: #00000014; }
@@ -1659,7 +1863,6 @@
       .art-img { background-color: #e0e0e0; border-color: #00000014; }
       .art-card:hover .art-img { border-color: #E0115F4d; box-shadow: 0 4px 16px #E0115F1a; }
       .art-name { color: #0000008c; }
-      .commissions-msg { background: #fffffff2; color: #1a1a1a; box-shadow: 0 4px 12px #0000001a; }
       .cat-overlay { background: #f4f2ecec; }
       .cat-img { box-shadow: 0 20px 60px #00000033; }
       .split-tabs { background: #0000000d; border-color: #0000001a; }
@@ -1680,6 +1883,13 @@
       .tape-divider .lyrics-tape::after {
         background: repeating-linear-gradient(45deg, #f4f2ec 0 10px, #E0115F 10px 20px) !important;
       }
+      .comms-modal-overlay { background: rgba(244, 242, 236, 0.8); }
+      .comms-modal { background: #ffffff; border-color: #00000014; box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
+      .comms-close { background: #0000000f; color: #2d2b28; }
+      .comms-close:hover { background: #E0115F; color: #ffffff; }
+      .comms-title { color: #2d2b28; }
+      .comms-list li { border-bottom-color: #0000000f; color: #2d2b28cc; }
+      .comms-text { color: #2d2b28b3; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1769,6 +1979,14 @@
   <div class="queue-panel" id="queuePanel">
     <div class="queue-header">Queue</div>
     <div class="queue-list" id="queueList"></div>
+  </div>
+
+  <div class="vinyl-panel" id="vinylPanel">
+    <div class="vinyl" id="vinyl">
+      <div class="vinyl-label">
+        <img id="vinylArt" src="https://i.ytimg.com/vi/LBhcqYqeu0U/mqdefault.jpg" alt="Album Art">
+      </div>
+    </div>
   </div>
 
   <div class="now-playing" id="nowPlaying">
@@ -1912,7 +2130,6 @@
           </h1>
           <div class="commissions-area">
             <button class="commissions-btn" id="commissionsBtn">Commissions</button>
-            <div class="commissions-msg" id="commissionsMsg">currently closed</div>
           </div>
         </div>
         <div class="split-content arts-grid">
@@ -1946,6 +2163,39 @@
     <footer class="page-footer">
       &copy; 2026 @Whiteisbluu
     </footer>
+  </div>
+
+  <div class="comms-modal-overlay" id="commsModalOverlay">
+    <div class="comms-modal">
+      <button class="comms-close" id="commsClose">&times;</button>
+      <h2 class="comms-title">Commissions</h2>
+      <div class="comms-status status-open">STATUS: OPEN</div>
+      
+      <div class="comms-section">
+        <h3>Pricing Guide</h3>
+        <ul class="comms-list">
+          <li><span>Icon / Bust</span><span>$30+</span></li>
+          <li><span>Half Body</span><span>$50+</span></li>
+          <li><span>Full Body</span><span>$80+</span></li>
+          <li><span>Additional Character</span><span>+50%</span></li>
+        </ul>
+      </div>
+
+      <div class="comms-section">
+        <h3>Terms of Service</h3>
+        <ul class="comms-list tos-list">
+          <li>Personal use only. No commercial use without prior agreement.</li>
+          <li>I retain the right to post the artwork on my social media and portfolio.</li>
+          <li>No NFTs, no AI training, no tracing or heavy referencing of my style.</li>
+          <li>I reserve the right to reject any commission that makes me uncomfortable.</li>
+        </ul>
+      </div>
+
+      <div class="comms-section">
+        <h3>How to Order</h3>
+        <p class="comms-text">Send a DM on Instagram or Discord with your character reference, a brief description of what you want, and your budget. Payment is via PayPal or Ko-fi, 50% upfront or full payment before starting.</p>
+      </div>
+    </div>
   </div>
 
   <div class="cat-overlay" id="catOverlay">
@@ -2065,6 +2315,9 @@
     const queuePanel = document.getElementById('queuePanel');
     const queueList = document.getElementById('queueList');
     const loader = document.getElementById('loader');
+    const vinylPanel = document.getElementById('vinylPanel');
+    const vinyl = document.getElementById('vinyl');
+    const vinylArt = document.getElementById('vinylArt');
 
     let ytPlayer;
     let musicPlaying = false;
@@ -2075,7 +2328,8 @@
     function updateNowPlaying(song) {
       npTitle.textContent = song.title;
       npArtist.textContent = song.artist;
-      npArt.src = `https://i.ytimg.com/vi/${song.id}/mqdefault.jpg`;
+      npArt.src = 'https://i.ytimg.com/vi/' + song.id + '/mqdefault.jpg';
+      if (vinylArt) vinylArt.src = 'https://i.ytimg.com/vi/' + song.id + '/mqdefault.jpg';
       updateQueue();
     }
 
@@ -2084,19 +2338,19 @@
       songs.forEach((song, index) => {
         const item = document.createElement('div');
         item.className = 'queue-item' + (index === currentSongIndex ? ' active' : '');
-        item.innerHTML = `
-          <span class="queue-item-index">${index + 1}</span>
-          <img class="queue-item-art" src="https://i.ytimg.com/vi/${song.id}/mqdefault.jpg" alt="">
-          <div class="queue-item-info">
-            <div class="queue-item-title">${song.title}</div>
-            <div class="queue-item-artist">${song.artist}</div>
-          </div>
-        `;
+        item.innerHTML = 
+          '<span class="queue-item-index">' + (index + 1) + '</span>' +
+          '<img class="queue-item-art" src="https://i.ytimg.com/vi/' + song.id + '/mqdefault.jpg" alt="">' +
+          '<div class="queue-item-info">' +
+            '<div class="queue-item-title">' + song.title + '</div>' +
+            '<div class="queue-item-artist">' + song.artist + '</div>' +
+          '</div>';
         item.addEventListener('click', () => {
           loadSong(index);
           if (!musicPlaying) {
             musicPlaying = true;
             nowPlaying.classList.add('playing');
+            if (vinyl) vinyl.classList.add('playing');
             if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
               ytPlayer.playVideo();
             }
@@ -2155,6 +2409,7 @@
       userClickedEnter = true;
       musicPlaying = true;
       nowPlaying.classList.add('playing');
+      if (vinyl) vinyl.classList.add('playing');
 
       if (ytPlayer && typeof ytPlayer.unMute === 'function') {
         ytPlayer.unMute();
@@ -2192,9 +2447,11 @@
             if (event.data === YT.PlayerState.PLAYING) {
               musicPlaying = true;
               nowPlaying.classList.add('playing');
+              if (vinyl) vinyl.classList.add('playing');
             } else if (event.data === YT.PlayerState.PAUSED) {
               musicPlaying = false;
               nowPlaying.classList.remove('playing');
+              if (vinyl) vinyl.classList.remove('playing');
             }
           }
         }
@@ -2204,6 +2461,7 @@
     npPlay.addEventListener('click', () => {
       musicPlaying = !musicPlaying;
       nowPlaying.classList.toggle('playing', musicPlaying);
+      if (vinyl) vinyl.classList.toggle('playing', musicPlaying);
 
       if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
         if (musicPlaying) {
@@ -2217,16 +2475,59 @@
     npNext.addEventListener('click', nextSong);
     npPrev.addEventListener('click', prevSong);
 
+    function syncVinylHeight() {
+      if (!vinylPanel || !queuePanel) return;
+      vinylPanel.style.height = queuePanel.offsetHeight + 'px';
+    }
+
     npQueue.addEventListener('click', (e) => {
       e.stopPropagation();
       queuePanel.classList.toggle('open');
+      if (vinylPanel) vinylPanel.classList.toggle('open');
+
+      if (queuePanel.classList.contains('open')) {
+        clearTimeout(npIdleTimer);
+        nowPlaying.classList.remove('idle');
+        syncVinylHeight();
+      } else {
+        npScheduleIdle();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (queuePanel.classList.contains('open')) {
+        syncVinylHeight();
+      }
     });
 
     document.addEventListener('click', (e) => {
-      if (!queuePanel.contains(e.target) && !npQueue.contains(e.target)) {
+      const isInsidePlayer = nowPlaying.contains(e.target);
+      const isInsideQueue = queuePanel.contains(e.target);
+      const isInsideVinyl = vinylPanel && vinylPanel.contains(e.target);
+
+      if (!isInsidePlayer && !isInsideQueue && !isInsideVinyl) {
         queuePanel.classList.remove('open');
+        if (vinylPanel) vinylPanel.classList.remove('open');
+        npScheduleIdle();
       }
     });
+
+    if (vinyl) {
+      vinyl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        musicPlaying = !musicPlaying;
+        nowPlaying.classList.toggle('playing', musicPlaying);
+        vinyl.classList.toggle('playing', musicPlaying);
+
+        if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+          if (musicPlaying) {
+            ytPlayer.playVideo();
+          } else {
+            ytPlayer.pauseVideo();
+          }
+        }
+      });
+    }
 
     const NP_IDLE_TIME = 7000;
     let npIdleTimer = null;
@@ -2234,10 +2535,13 @@
 
     function npScheduleIdle() {
       clearTimeout(npIdleTimer);
+      if (queuePanel.classList.contains('open')) return;
 
       npIdleTimer = setTimeout(() => {
+        if (queuePanel.classList.contains('open')) return;
         nowPlaying.classList.add('idle');
         queuePanel.classList.remove('open');
+        if (vinylPanel) vinylPanel.classList.remove('open');
       }, NP_IDLE_TIME);
     }
 
@@ -2256,6 +2560,7 @@
 
       return nowPlaying.contains(target) ||
              queuePanel.contains(target) ||
+             (vinylPanel && vinylPanel.contains(target)) ||
              loader.contains(target);
     }
 
@@ -2295,14 +2600,26 @@
     }
 
     const commissionsBtn = document.getElementById('commissionsBtn');
-    const commissionsMsg = document.getElementById('commissionsMsg');
+    const commsModalOverlay = document.getElementById('commsModalOverlay');
+    const commsClose = document.getElementById('commsClose');
 
-    if (commissionsBtn && commissionsMsg) {
+    if (commissionsBtn && commsModalOverlay) {
       commissionsBtn.addEventListener('click', () => {
-        commissionsMsg.classList.add('show');
-        setTimeout(() => {
-          commissionsMsg.classList.remove('show');
-        }, 2000);
+        commsModalOverlay.classList.add('open');
+      });
+    }
+
+    if (commsClose && commsModalOverlay) {
+      commsClose.addEventListener('click', () => {
+        commsModalOverlay.classList.remove('open');
+      });
+    }
+
+    if (commsModalOverlay) {
+      commsModalOverlay.addEventListener('click', (e) => {
+        if (e.target === commsModalOverlay) {
+          commsModalOverlay.classList.remove('open');
+        }
       });
     }
 

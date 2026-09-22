@@ -68,4 +68,6 @@ vcpkg_installed/
 Testing/
 .cache/
 
-
+#ou shi (ishowspeed gif)
+.env
+.vscode
