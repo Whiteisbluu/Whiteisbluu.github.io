@@ -77,6 +77,16 @@
       overscroll-behavior: none;
     }
 
+    body.modal-lock {
+      position: fixed;
+      left: 0;
+      right: 0;
+      width: 100%;
+      overflow: hidden !important;
+      overscroll-behavior: none;
+      touch-action: none;
+    }
+
     .loader {
       position: fixed;
       inset: 0;
@@ -529,6 +539,9 @@
     }
 
     .queue-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 0.8rem 1rem;
       border-bottom: 1px solid #ffffff14;
       font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
@@ -538,10 +551,52 @@
       color: #ffffff99;
     }
 
+    .panel-swap-btn {
+      display: none;
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #ffffff99;
+      flex-shrink: 0;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .panel-swap-btn:hover {
+      background: #ffffff14;
+      color: #ffffff;
+    }
+
+    .panel-swap-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .vinyl-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #ffffff14;
+      font-size: clamp(0.65rem, 0.62rem + 0.2vw, 0.75rem);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #ffffff99;
+      flex-shrink: 0;
+    }
+
     .queue-list {
       max-height: 200px;
       overflow-y: auto;
       scrollbar-width: none;
+      overscroll-behavior: contain;
     }
 
     .queue-list::-webkit-scrollbar {
@@ -636,7 +691,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       overflow: hidden;
     }
 
@@ -655,6 +709,7 @@
       position: relative;
       transform-origin: center;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      cursor: pointer;
     }
 
     .vinyl.playing {
@@ -862,6 +917,7 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 18px 50px #00000059;
+      overscroll-behavior: contain;
     }
 
     .p1-card::-webkit-scrollbar {
@@ -1195,7 +1251,14 @@
 
     .comms-modal-overlay {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      height: -webkit-fill-available;
       background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -1207,6 +1270,7 @@
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
       padding: 2rem;
+      overscroll-behavior: none;
     }
 
     .comms-modal-overlay.open {
@@ -1217,16 +1281,19 @@
     .comms-modal {
       width: min(520px, 100%);
       max-height: 85vh;
+      max-height: 85dvh;
       background: #161616;
       border: 1px solid #ffffff1a;
       border-radius: 24px;
-      padding: 2.5rem;
       position: relative;
       overflow-y: auto;
       scrollbar-width: none;
       transform: translateY(20px) scale(0.95);
       transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      padding: 0;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     .comms-modal::-webkit-scrollbar {
@@ -1237,34 +1304,59 @@
       transform: translateY(0) scale(1);
     }
 
+    .comms-modal-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: #161616;
+      padding: 2rem 2.5rem 1.2rem;
+      border-bottom: 1px solid #ffffff14;
+    }
+
+    .comms-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+
+    .comms-modal-body {
+      padding: 1.5rem 2.5rem 2.5rem;
+    }
+
     .comms-close {
-      position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
       border: none;
       background: #ffffff14;
       color: #ffffff;
-      font-size: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
+      flex-shrink: 0;
+      transition: background 0.25s ease, transform 0.2s ease;
     }
 
     .comms-close:hover {
       background: #E0115F;
-      transform: rotate(90deg);
+    }
+
+    .comms-close:active {
+      transform: scale(0.9);
+    }
+
+    .comms-close svg {
+      width: 16px;
+      height: 16px;
     }
 
     .comms-title {
       font-family: 'Black Han Sans', sans-serif;
       font-size: 2rem;
       color: #ffffff;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
     }
 
     .comms-status {
@@ -1275,23 +1367,18 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    .status-open {
-      background: #28c84026;
-      color: #28c840;
-      border: 1px solid #28c8404d;
-    }
-
-    .status-closed {
-      background: #ff5f5726;
-      color: #ff5f57;
-      border: 1px solid #ff5f574d;
+      margin-bottom: 0;
+      background: #ffffff14;
+      color: #ffffffcc;
+      border: 1px solid #ffffff26;
     }
 
     .comms-section {
       margin-bottom: 1.5rem;
+    }
+
+    .comms-section:last-child {
+      margin-bottom: 0;
     }
 
     .comms-section h3 {
@@ -1340,10 +1427,29 @@
       top: 0.65rem;
     }
 
+    .price-tbd {
+      font-size: 0.75rem;
+      font-style: italic;
+      color: #ffffff66;
+      font-weight: 500;
+    }
+
     .comms-text {
       font-size: 0.9rem;
       line-height: 1.6;
       color: #ffffffb3;
+    }
+
+    .discord-link {
+      color: #E0115F;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid #E0115F66;
+      transition: border-color 0.2s ease;
+    }
+
+    .discord-link:hover {
+      border-color: #E0115F;
     }
 
     .arts-grid {
@@ -1554,8 +1660,42 @@
       .queue-panel {
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 64px);
       }
-      .vinyl-panel {
-        display: none;
+      .vinyl-panel,
+      .vinyl-panel.open {
+        display: flex;
+        flex-direction: column;
+        right: calc(1rem + env(safe-area-inset-right, 0px));
+        bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 64px);
+        width: 220px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+      }
+      .vinyl-panel.mobile-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .queue-panel.mobile-hidden {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        pointer-events: none;
+      }
+      .vinyl-header {
+        display: flex;
+      }
+      .panel-swap-btn {
+        display: flex;
+      }
+      .vinyl {
+        width: 140px;
+        height: 140px;
+        margin: auto;
+      }
+      .vinyl-label {
+        width: 56px;
+        height: 56px;
       }
       .np-art {
         width: 40px;
@@ -1720,12 +1860,44 @@
       .arts-grid {
         gap: 0.8rem;
       }
+      .comms-modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+        justify-content: stretch;
+      }
       .comms-modal {
-        padding: 2rem 1.5rem;
-        border-radius: 20px;
+        border-radius: 20px 20px 0 0;
+        max-height: 90vh;
+        max-height: 90dvh;
+        width: 100%;
+        transform: translateY(100%);
+      }
+      .comms-modal-overlay.open .comms-modal {
+        transform: translateY(0) scale(1);
+      }
+      .comms-modal-header {
+        padding: 1.4rem 1.4rem 1rem;
+      }
+      .comms-modal-body {
+        padding: 1.2rem 1.4rem 2rem;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
       }
       .comms-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+      }
+      .comms-close {
+        width: 38px;
+        height: 38px;
+      }
+      .tos-list li {
+        padding-left: 1rem;
+        font-size: 0.85rem;
+      }
+      .comms-list li {
+        font-size: 0.85rem;
+      }
+      .comms-text {
+        font-size: 0.85rem;
       }
     }
 
@@ -1757,7 +1929,9 @@
       .np-controls {
         gap: 0.1rem;
       }
-      .queue-panel {
+      .queue-panel,
+      .vinyl-panel,
+      .vinyl-panel.open {
         width: min(220px, calc(100vw - 2rem));
         bottom: calc(1rem + env(safe-area-inset-bottom, 0px) + 86px) !important;
       }
@@ -1819,6 +1993,19 @@
       .split-tabs { margin-bottom: 0.8rem; }
       .lyrics-tape { padding: 0.35rem 0; margin-bottom: 0.8rem; }
       .image-grid { grid-template-columns: repeat(5, 1fr); }
+      .comms-modal-overlay {
+        align-items: center;
+        padding: 1.5rem;
+      }
+      .comms-modal {
+        border-radius: 20px;
+        max-height: 80vh;
+        max-height: 80dvh;
+        transform: translateY(20px) scale(0.95);
+      }
+      .comms-modal-overlay.open .comms-modal {
+        transform: translateY(0) scale(1);
+      }
     }
 
     @media (prefers-color-scheme: light) {
@@ -1849,6 +2036,9 @@
       .queue-item-index { color: #2d2b2859; }
       .vinyl { background-color: #222222; border-color: #333333; box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
       .vinyl-label { border-color: #222222; }
+      .panel-swap-btn { color: #2d2b28a6; }
+      .panel-swap-btn:hover { background: #0000000a; color: #2d2b28; }
+      .vinyl-header { color: #2d2b28a6; border-bottom-color: #0000000f; }
       .name-title { color: #2d2b28; }
       p.info { color: #3b3935; }
       .expand-panel.open { border-top-color: #00000014; }
@@ -1885,11 +2075,14 @@
       }
       .comms-modal-overlay { background: rgba(244, 242, 236, 0.8); }
       .comms-modal { background: #ffffff; border-color: #00000014; box-shadow: 0 25px 60px rgba(0,0,0,0.15); }
+      .comms-modal-header { background: #ffffff; border-bottom-color: #0000000f; }
       .comms-close { background: #0000000f; color: #2d2b28; }
       .comms-close:hover { background: #E0115F; color: #ffffff; }
       .comms-title { color: #2d2b28; }
+      .comms-status { background: #0000000f; color: #2d2b28cc; border: 1px solid #0000001a; }
       .comms-list li { border-bottom-color: #0000000f; color: #2d2b28cc; }
       .comms-text { color: #2d2b28b3; }
+      .price-tbd { color: #2d2b2873; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1977,11 +2170,26 @@
   </aside>
 
   <div class="queue-panel" id="queuePanel">
-    <div class="queue-header">Queue</div>
+    <div class="queue-header">
+      <span>Queue</span>
+      <button class="panel-swap-btn" id="queueVinylToggle" aria-label="Show vinyl">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 12.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+        </svg>
+      </button>
+    </div>
     <div class="queue-list" id="queueList"></div>
   </div>
 
   <div class="vinyl-panel" id="vinylPanel">
+    <div class="vinyl-header">
+      <span>Vinyl</span>
+      <button class="panel-swap-btn" id="vinylQueueToggle" aria-label="Show queue">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+        </svg>
+      </button>
+    </div>
     <div class="vinyl" id="vinyl">
       <div class="vinyl-label">
         <img id="vinylArt" src="https://i.ytimg.com/vi/LBhcqYqeu0U/mqdefault.jpg" alt="Album Art">
@@ -2167,33 +2375,47 @@
 
   <div class="comms-modal-overlay" id="commsModalOverlay">
     <div class="comms-modal">
-      <button class="comms-close" id="commsClose">&times;</button>
-      <h2 class="comms-title">Commissions</h2>
-      <div class="comms-status status-open">STATUS: OPEN</div>
-      
-      <div class="comms-section">
-        <h3>Pricing Guide</h3>
-        <ul class="comms-list">
-          <li><span>Icon / Bust</span><span>$30+</span></li>
-          <li><span>Half Body</span><span>$50+</span></li>
-          <li><span>Full Body</span><span>$80+</span></li>
-          <li><span>Additional Character</span><span>+50%</span></li>
-        </ul>
+      <div class="comms-modal-header">
+        <div class="comms-header-top">
+          <h2 class="comms-title">Commissions</h2>
+          <button class="comms-close" id="commsClose" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="comms-status">STATUS: CLOSED</div>
       </div>
+      <div class="comms-modal-body">
+        
+        <div class="comms-section">
+          <h3>Pricing Guide</h3>
+          <ul class="comms-list">
+            <li><span>Icon / Bust</span><span class="price-tbd">(still deciding)</span></li>
+            <li><span>Half Body</span><span class="price-tbd">(still deciding)</span></li>
+            <li><span>Full Body</span><span class="price-tbd">(still deciding)</span></li>
+            <li><span>Additional Character</span><span class="price-tbd">(still deciding)</span></li>
+          </ul>
+        </div>
 
-      <div class="comms-section">
-        <h3>Terms of Service</h3>
-        <ul class="comms-list tos-list">
-          <li>Personal use only. No commercial use without prior agreement.</li>
-          <li>I retain the right to post the artwork on my social media and portfolio.</li>
-          <li>No NFTs, no AI training, no tracing or heavy referencing of my style.</li>
-          <li>I reserve the right to reject any commission that makes me uncomfortable.</li>
-        </ul>
-      </div>
+        <div class="comms-section">
+          <h3>Terms of Service</h3>
+          <ul class="comms-list tos-list">
+            <li>Half payment is required before I start working. I accept PayPal and Ko-fi only.</li>
+            <li>All artwork is for personal use only. Commercial use requires prior discussion.</li>
+            <li>Please do not repost, trace, heavily edit, or claim my artwork as your own.</li>
+            <li>My artwork may not be used for NFTs, cryptocurrency projects, or AI training under any circumstances.</li>
+            <li>I retain the right to post the finished artwork on my social media and portfolio. Let me know in advance if you need it kept private.</li>
+            <li>Free revisions are available during the sketch phase. Changes after line art may incur an extra fee.</li>
+            <li>I reserve the right to decline any request that I am not comfortable drawing.</li>
+          </ul>
+        </div>
 
-      <div class="comms-section">
-        <h3>How to Order</h3>
-        <p class="comms-text">Send a DM on Instagram or Discord with your character reference, a brief description of what you want, and your budget. Payment is via PayPal or Ko-fi, 50% upfront or full payment before starting.</p>
+        <div class="comms-section">
+          <h3>How to Order</h3>
+          <p class="comms-text">Send me a DM on Discord <a href="https://discord.com/users/890796885101649950" target="_blank" rel="noopener noreferrer" class="discord-link">@Whiteisbluu</a> with your character references and a short description of your idea. Note that it might take me a while to respond :D</p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -2480,10 +2702,21 @@
       vinylPanel.style.height = queuePanel.offsetHeight + 'px';
     }
 
+    const mobileView = window.matchMedia('(max-width: 768px)');
+    const queueVinylToggle = document.getElementById('queueVinylToggle');
+    const vinylQueueToggle = document.getElementById('vinylQueueToggle');
+
     npQueue.addEventListener('click', (e) => {
       e.stopPropagation();
       queuePanel.classList.toggle('open');
-      if (vinylPanel) vinylPanel.classList.toggle('open');
+
+      if (mobileView.matches) {
+        queuePanel.classList.remove('mobile-hidden');
+        vinylPanel.classList.remove('mobile-open');
+        vinylPanel.classList.remove('open');
+      } else {
+        vinylPanel.classList.toggle('open', queuePanel.classList.contains('open'));
+      }
 
       if (queuePanel.classList.contains('open')) {
         clearTimeout(npIdleTimer);
@@ -2493,6 +2726,23 @@
         npScheduleIdle();
       }
     });
+
+    if (queueVinylToggle) {
+      queueVinylToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        queuePanel.classList.add('mobile-hidden');
+        vinylPanel.classList.add('mobile-open');
+        syncVinylHeight();
+      });
+    }
+
+    if (vinylQueueToggle) {
+      vinylQueueToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        vinylPanel.classList.remove('mobile-open');
+        queuePanel.classList.remove('mobile-hidden');
+      });
+    }
 
     window.addEventListener('resize', () => {
       if (queuePanel.classList.contains('open')) {
@@ -2507,7 +2757,9 @@
 
       if (!isInsidePlayer && !isInsideQueue && !isInsideVinyl) {
         queuePanel.classList.remove('open');
-        if (vinylPanel) vinylPanel.classList.remove('open');
+        queuePanel.classList.remove('mobile-hidden');
+        vinylPanel.classList.remove('open');
+        vinylPanel.classList.remove('mobile-open');
         npScheduleIdle();
       }
     });
@@ -2541,7 +2793,9 @@
         if (queuePanel.classList.contains('open')) return;
         nowPlaying.classList.add('idle');
         queuePanel.classList.remove('open');
-        if (vinylPanel) vinylPanel.classList.remove('open');
+        queuePanel.classList.remove('mobile-hidden');
+        vinylPanel.classList.remove('open');
+        vinylPanel.classList.remove('mobile-open');
       }, NP_IDLE_TIME);
     }
 
@@ -2602,23 +2856,34 @@
     const commissionsBtn = document.getElementById('commissionsBtn');
     const commsModalOverlay = document.getElementById('commsModalOverlay');
     const commsClose = document.getElementById('commsClose');
+    let commsSavedScrollY = 0;
+
+    function openCommsModal() {
+      commsSavedScrollY = window.scrollY;
+      document.body.style.top = -commsSavedScrollY + 'px';
+      commsModalOverlay.classList.add('open');
+      document.body.classList.add('modal-lock');
+    }
+
+    function closeCommsModal() {
+      commsModalOverlay.classList.remove('open');
+      document.body.classList.remove('modal-lock');
+      document.body.style.top = '';
+      window.scrollTo({ top: commsSavedScrollY, behavior: 'instant' });
+    }
 
     if (commissionsBtn && commsModalOverlay) {
-      commissionsBtn.addEventListener('click', () => {
-        commsModalOverlay.classList.add('open');
-      });
+      commissionsBtn.addEventListener('click', openCommsModal);
     }
 
     if (commsClose && commsModalOverlay) {
-      commsClose.addEventListener('click', () => {
-        commsModalOverlay.classList.remove('open');
-      });
+      commsClose.addEventListener('click', closeCommsModal);
     }
 
     if (commsModalOverlay) {
       commsModalOverlay.addEventListener('click', (e) => {
         if (e.target === commsModalOverlay) {
-          commsModalOverlay.classList.remove('open');
+          closeCommsModal();
         }
       });
     }
